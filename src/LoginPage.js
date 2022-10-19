@@ -1,16 +1,35 @@
-import { Link } from "react-router-dom"
+import axios from "axios";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import logo from "./Assets/Group8.png"
-
+import { LoginForm } from "./Constants/StyledComponents";
+import { UserContext } from "./userContext";
 
 export default function LoginPage() {
+    const navigate = useNavigate();
+    const {userInfo, setUserInfo} = useContext(UserContext)
+    const body = {email: "", password: ""}
+
+    function handleClick (e) {
+    e.preventDefault();
+    axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", body)
+    .then (res => {
+        setUserInfo(res.data);
+        console.log(res.data);
+        navigate("/habitos")
+    })
+    .catch(err => console.log(err))
+    }
+
+    
     return (
         <LoginContainer>
             <img src={logo} alt="Trackt Logo"/>
 
-            <LoginForm>
-                <input required type="email" name="e-mail" placeholder="email"></input>
-                <input required type="text" name="password" placeholder="senha"></input>
+            <LoginForm onSubmit={handleClick}>
+                <input required type="email" onChange={e => body.email = e.target.value}     name="e-mail" placeholder="email"></input>
+                <input required type="password" onChange={e => body.password = e.target.value}     name="password" placeholder="senha"></input>
                 <button type="submit" >Entrar</button>
             </LoginForm>
 
@@ -22,32 +41,7 @@ export default function LoginPage() {
 
 }
 
-const LoginForm = styled.form`
-     font-family: 'Lexend Deca', sans-serif;
-     display: flex; 
-     flex-direction: column;
-     justify-content: center;
-     width: 303px;
-     input {
-         height: 45px;
-         border: 1px solid #D4D4D4;
-         border-radius: 5px;
-         margin-bottom: 6px;
-         ::placeholder {
-             font-family: 'Lexend Deca', sans-serif;
-          color: #DBDBDB;
-          font-size: 20px;
-         }
-     }
-     button {
-         font-family: 'Lexend Deca', sans-serif;
-         height: 45px;
-         border-radius: 4.5px;
-         background-color: #52B6FF;
-         font-size: 21px;
-         color: #fff;
-     }
-`
+
 
 const LoginContainer = styled.div`
     width: 375px;

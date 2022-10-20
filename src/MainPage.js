@@ -12,31 +12,33 @@ export default function MainPage() {
 
     const [habits, setHabits] = useState([])
     const { userInfo, setUserInfo } = useContext(UserContext);
-    let lalala = false;
+    const [visibilidade, setVisibilidade] = useState("none");
+    const [days, setDays] = useState([]);
+    const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
 
     const token = userInfo.token;
     const config = {
-        name: "Hábito Teste",
-        days: [1, 3, 5] // segunda, quarta e sexta
+        name: "",
+        days: days
     }
 
-    function saveHabit (e) {
+
+    function saveHabit(e) {
         e.preventDefault();
+        axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config, { headers: { Authorization: `Bearer ${token}` } })
+            .then(res => console.log("você logou"))
+            .catch(err => console.log(err.response.data.message))
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", { headers: { Authorization: `Bearer ${token}` } })
-        .then(res => {
-            setHabits(res.data)
-            console.log(res.data)
-        })
-        .catch(err => console.log(err.response.data))
+            .then(res => {
+                setHabits(res.data)
+            })
+            .catch(err => console.log(err.response.data))
     }, [])
 
-    function handleCreateHabit () {
-      lalala = true;
 
-    }
 
 
     return (
@@ -51,38 +53,35 @@ export default function MainPage() {
             <Content>
                 <Header>
                     <p> Meus hábitos</p>
-                    <div onClick={handleCreateHabit} >+</div>
+                    <div onClick={() => setVisibilidade("")} >+</div>
                 </Header>
 
                 <CriarHabito >
-                  
-                    <LoginForm onSubmit = {saveHabit}>
-                        <input type="text" name="name" placeholder="Nome do Hábito"></input>
+                    <LoginForm visibilidade={visibilidade} onSubmit={saveHabit}>
+                        <input type="text" name="name" onChange={(e) => config.name = e.target.value} placeholder="Nome do Hábito"></input>
                         <WeekDays>
-                            <WeekDay>D</WeekDay>
-                            <WeekDay>S</WeekDay>
-                            <WeekDay>T</WeekDay>
-                            <WeekDay>Q</WeekDay>
-                            <WeekDay>Q</WeekDay>
-                            <WeekDay>S</WeekDay>
-                            <WeekDay>S</WeekDay>
+                            {weekdays.map((i, idx) => <Weekday idx={idx} days={days} setDays={setDays} key={idx} dia={i} />)}
+
                         </WeekDays>
 
-                        <Save type="submit">Salvar</Save>
+                        <Botoes>
+                            <p onClick={() => setVisibilidade("none")} >Cancelar</p>
+                            <Save type="submit">Salvar</Save>
+                        </Botoes>
                     </LoginForm>
 
 
+                    {habits.length >= 1 ? " " : <p >Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
+
                     {habits.map((item) => <Habit key={item.id} habit={item}></Habit>)}
-
-
-                    {habits.length >= 1 ? " ": <p >Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p> }
-                   
                 </CriarHabito>
-
             </Content>
+
             <Footer>
                 <p>Hábitos</p>
-                <Ellipse>Hoje</Ellipse>
+                
+                    <Ellipse><Link to="/hoje">Hoje</Link></Ellipse>
+                
                 <p>Histórico</p>
             </Footer>
         </>
@@ -90,6 +89,34 @@ export default function MainPage() {
 
     )
 }
+
+
+
+function Weekday({ idx, dia, setDays, days }) {
+
+    const [selected, setSelected] = useState("white");
+
+    function handleClick(day) {
+
+
+        if (!days.includes(day)) {
+            setDays([...days, day]);
+            setSelected("#52B6FF");
+        }
+        else if (days.includes(day)) {
+            const newArray = days.filter((i) => i !== day);
+            setDays([...newArray]);
+            setSelected("white");
+        }
+    }
+
+
+    return (
+        <WeekDay onClick={() => handleClick(idx)} selected={selected}>{dia}</WeekDay>
+    )
+
+}
+
 
 const Navbar = styled.div`
 
@@ -138,6 +165,7 @@ const Header = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    margin-bottom: 50px;
     p {
         font-family: 'Lexend Deca', sans-serif;
         color: #126BA5;
@@ -163,22 +191,20 @@ const UserImg = styled.img`
 const CriarHabito = styled.div`
     width: 340px;
     height: 180px;
-    margin: 0 auto;
+    margin: 10vh auto;
     display: flex;
     flex-direction:column;
     align-items: flex-start;
     justify-content: center;
-    p {
+    > p {
+        margin-top: 50px;
     }
 `
 export const WeekDays = styled.ul`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    :nth-child(2n) {
-        background-color: #CFCFCF;
-        color: white;
-    }
+
 `
 export const WeekDay = styled.li`
     width: 30px;
@@ -191,6 +217,7 @@ export const WeekDay = styled.li`
     color: #DBDBDB;
     border: 1px solid #DBDBDB;
     border-radius: 5px;
+    background-color: ${props => (props.selected)};
 `
 
 const Save = styled.button`
@@ -207,7 +234,7 @@ const LoginForm = styled.form`
      flex-direction: column;
      justify-content: center;
      width: 303px;
-     display: none;
+     display: ${props => props.visibilidade};
      input {
          height: 45px;
          border: 1px solid #D4D4D4;
@@ -227,4 +254,17 @@ const LoginForm = styled.form`
          font-size: 21px;
          color: #fff;
      }
+`
+
+const Botoes = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 25px;
+    p {
+        font-family: 'Lexend Deca', sans-serif;
+         font-size: 21px;
+         color: #52B6FF;
+         margin-right: 20px;
+    }
 `

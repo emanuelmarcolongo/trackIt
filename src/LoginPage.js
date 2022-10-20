@@ -16,7 +16,6 @@ export default function LoginPage() {
     axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", body)
     .then (res => {
         setUserInfo(res.data);
-        console.log(res.data);
         navigate("/habitos")
     })
     .catch(err => console.log(err))

@@ -1,25 +1,48 @@
+import axios from "axios"
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components"
 import trash from "./Assets/trash.png"
+import { UserContext } from "./userContext";
 
 export default function Habit({habit}) {
+    const { userInfo, setUserInfo } = useContext(UserContext);
+    const navigate= useNavigate();
+    const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
+    const [selected, setSelected] = useState("red");
+
+
+    function handleDelete (i) {
+        axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${i}`, { headers: { Authorization: `Bearer ${userInfo.token}` }})
+        .then(res => navigate("/habitos"))
+        .catch(err => alert(err.response.data))
+    }
+
+    
+
     return (
         <Habitt>
             <p>{habit.name}</p>
             <WeekDays>
-                <WeekDay>D</WeekDay>
-                <WeekDay>S</WeekDay>
-                <WeekDay>T</WeekDay>
-                <WeekDay>Q</WeekDay>
-                <WeekDay>Q</WeekDay>
-                <WeekDay>S</WeekDay>
-                <WeekDay>S</WeekDay>
+                {weekdays.map((i, idx) => <Weekday days={habit.days} dia={i} key={idx} idx={idx}/>)}
             </WeekDays>
 
-            <img src={trash} alt="Delete"/>
+            <img onClick={() => handleDelete(habit.id)} src={trash} alt="Delete"/>
         </Habitt>
     )
 }
 
+    function Weekday ({dia, idx, days}) {
+
+        const [selected, setSelected] = useState("white");
+
+
+        return (
+            <WeekDay selected={selected}>
+                {dia}
+            </WeekDay>
+        )
+    }
 
 const Habitt = styled.div`
     width: 340px;
@@ -29,6 +52,8 @@ const Habitt = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-top: 20px;
+    padding: 5px;
     
     p {
         font-family: 'Lexend Deca', sans-serif;
@@ -61,9 +86,4 @@ const WeekDay = styled.li`
     color: #DBDBDB;
     border: 1px solid #DBDBDB;
     border-radius: 5px;
-    
-    :nth-child(2n) {
-        background-color: #CFCFCF;
-        color: white;
-    }
 `

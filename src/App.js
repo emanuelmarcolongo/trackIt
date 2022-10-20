@@ -4,7 +4,8 @@ import GlobalStyle from './globalStyles';
 import RegisterPage from "./RegisterPage";
 import MainPage from "./MainPage";
 import { UserContext } from "./userContext";
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
+import TodayPage from "./TodayPage";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
 
             <Route path="/cadastro" element={<RegisterPage />} />
             <Route path="/habitos" element={<MainPage/>} />
+            <Route path="/hoje" element={<TodayPage/>} />
             
           </Routes>
         </UserContext.Provider>

@@ -13,11 +13,13 @@ let total1 = 0;
 
 export default function TodayPage() {
 
-
+    const [pointerEvents, setPointerEvents] = useState("");
     const { userInfo, setUserInfo } = useContext(UserContext);
     const token = userInfo.token;
     const [habitInfo, setHabitInfo] = useState([])
     const [teste, setTeste] = useState("")
+
+
     const config = {
         name: "",
         days: ""
@@ -62,7 +64,8 @@ export default function TodayPage() {
                 </Info>
 
 
-                {habitInfo.map((i) => <Habit  setTeste = {setTeste} token={token} id={i.id} key={i.id} done={i.done} sequence={i.currentSequence} record={i.highestSequence} name={i.name} />)} 
+                {habitInfo.map((i) => <Habit 
+                setTeste = {setTeste} token={token} id={i.id} key={i.id} done={i.done} sequence={i.currentSequence} record={i.highestSequence} name={i.name} />)} 
             </Content>
 
 
@@ -77,27 +80,25 @@ export default function TodayPage() {
     )
 }
 
-    function Habit ({setTeste, token, id, done, sequence, record, name}) {
+    function Habit ({ setTeste, token, id, done, sequence, record, name}) {
         const config = "lalala"
+
 
         function handleCheck (idHabito, done) {
             if (!done) {
-
                 axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idHabito}/check`, config,  { headers: { Authorization: `Bearer ${token}` } })
-                .then(res => setTeste("123"))
+                .then(res =>setTeste("321"))
                 .catch(err => console.log(err.response.data));
                
-               
+               setTeste([])
             }
 
             if (done) {
                 axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idHabito}/uncheck`, config,  { headers: { Authorization: `Bearer ${token}` } })
                 .then(res => setTeste("321"))
                 .catch(err => console.log(err.response.data));
-
-                setTeste(123);
             }
-           
+            setTeste([])
         }
 
         return (
@@ -110,7 +111,7 @@ export default function TodayPage() {
                     <HabitInfo>Sequencia Atual: {sequence} dias</HabitInfo>
                     <HabitInfo>Seu recorde: {record} dias</HabitInfo>
                 </HabitoConteudo>
-                <Checkbox onClick={()=> handleCheck(id, done)} done={done}>
+                <Checkbox  onClick={()=> handleCheck(id, done)} done={done}>
                     <img src={check} alt="checksymbol"/>
                 </Checkbox>
             </Habito>
@@ -168,6 +169,7 @@ const Content = styled.div `
     align-items: center;
     flex-direction: column;
     margin-top: 90px;
+    margin-bottom: 200px;
  
 `
 const Info = styled.div`

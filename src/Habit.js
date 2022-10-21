@@ -5,7 +5,7 @@ import styled from "styled-components"
 import trash from "./Assets/trash.png"
 import { UserContext } from "./userContext";
 
-export default function Habit({habit}) {
+export default function Habit({habit, setReload}) {
     const { userInfo, setUserInfo } = useContext(UserContext);
     const navigate= useNavigate();
     const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
@@ -14,8 +14,10 @@ export default function Habit({habit}) {
 
     function handleDelete (i) {
         axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${i}`, { headers: { Authorization: `Bearer ${userInfo.token}` }})
-        .then(res => navigate("/habitos"))
+        .then(res => setReload([]))
         .catch(err => alert(err.response.data))
+
+        setReload("123")
     }
 
     
@@ -54,6 +56,8 @@ const Habitt = styled.div`
     justify-content: center;
     margin-top: 20px;
     padding: 5px;
+    background-color: white;
+    border-radius: 5px;
     
     p {
         font-family: 'Lexend Deca', sans-serif;

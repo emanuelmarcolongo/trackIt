@@ -5,6 +5,7 @@ import { UserContext } from "./userContext"
 import { Link } from "react-router-dom"
 import axios from "axios"
 import Habit from "./Habit"
+import Footer from "./Footer"
 
 
 export default function MainPage() {
@@ -15,18 +16,22 @@ export default function MainPage() {
     const [visibilidade, setVisibilidade] = useState("none");
     const [days, setDays] = useState([]);
     const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
+    const [reload, setReload] = useState(0);
 
     const token = userInfo.token;
+   
     const config = {
         name: "",
         days: days
     }
-
+    
 
     function saveHabit(e) {
         e.preventDefault();
+       
+
         axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config, { headers: { Authorization: `Bearer ${token}` } })
-            .then(res => console.log("você logou"))
+            .then(res => setReload(res.data.id))
             .catch(err => console.log(err.response.data.message))
     }
 
@@ -36,7 +41,7 @@ export default function MainPage() {
                 setHabits(res.data)
             })
             .catch(err => console.log(err.response.data))
-    }, [])
+    }, [reload])
 
 
 
@@ -71,19 +76,14 @@ export default function MainPage() {
                     </LoginForm>
 
 
-                    {habits.length >= 1 ? " " : <p >Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
+                    {habits.length >= 1 ? " " : <DefaultMessage >Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</DefaultMessage>}
 
-                    {habits.map((item) => <Habit key={item.id} habit={item}></Habit>)}
+                    {habits.map((item) => <Habit setReload={setReload} key={item.id} habit={item}></Habit>)}
                 </CriarHabito>
             </Content>
 
-            <Footer>
-                <p>Hábitos</p>
-                
-                    <Ellipse><Link to="/hoje">Hoje</Link></Ellipse>
-                
-                <p>Histórico</p>
-            </Footer>
+            <Footer/>
+          
         </>
 
 
@@ -131,45 +131,37 @@ const Navbar = styled.div`
     top: 0; 
     left: 0;
 `
-const Footer = styled.div`
-    font-family: 'Lexend Deca', sans-serif;
-    width: 100%;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    position: fixed;
-    bottom: 0; 
-    left: 0;
-`
-const Ellipse = styled.div`
-    font-family: 'Lexend Deca', sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 91px;
-    width: 91px;
-    font-size: 18px;
-    border-radius: 50%;
-    color: white;
-    background-color: #52B6FF;
-    position: absolute;
-    bottom: 15px;
-`
 const Content = styled.div`
-    margin-top: 100px;
-    margin-bottom: 100px;
+    margin-top: 71px;
+    height: 100vh;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #EBEBEB;
+`
+const CriarHabito = styled.div`
+    width: 340px;
+    height: 180px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction:column;
+    > p {
+        margin-top: 50px;
+    }
 `
 const Header = styled.div`
     display: flex;
+    width: 340px;
+    margin: 0 auto;
     align-items: center;
-    justify-content: space-evenly;
-    margin-bottom: 50px;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    margin-top: 30px;
     p {
         font-family: 'Lexend Deca', sans-serif;
         color: #126BA5;
         font-size: 23px;
+        font-weight: 600;
     }
     div {
         width: 40px;
@@ -187,18 +179,6 @@ const UserImg = styled.img`
     width: 51px;
     height: 51px;
     border-radius: 50%;
-`
-const CriarHabito = styled.div`
-    width: 340px;
-    height: 180px;
-    margin: 10vh auto;
-    display: flex;
-    flex-direction:column;
-    align-items: flex-start;
-    justify-content: center;
-    > p {
-        margin-top: 50px;
-    }
 `
 export const WeekDays = styled.ul`
     display: flex;
@@ -219,7 +199,6 @@ export const WeekDay = styled.li`
     border-radius: 5px;
     background-color: ${props => (props.selected)};
 `
-
 const Save = styled.button`
          font-family: 'Lexend Deca', sans-serif;
          height: 45px;
@@ -230,10 +209,14 @@ const Save = styled.button`
 `
 const LoginForm = styled.form`
      font-family: 'Lexend Deca', sans-serif;
+     box-sizing: border-box;
+     padding: 15px;
      display: flex; 
      flex-direction: column;
      justify-content: center;
-     width: 303px;
+     width: 340px;
+     background-color: white;
+     border-radius: ;
      display: ${props => props.visibilidade};
      input {
          height: 45px;
@@ -248,14 +231,15 @@ const LoginForm = styled.form`
      }
      button {
          font-family: 'Lexend Deca', sans-serif;
-         height: 45px;
+         height: 35px;
+         width: 84px;
          border-radius: 4.5px;
          background-color: #52B6FF;
-         font-size: 21px;
+         font-size: 16px;
          color: #fff;
+         border: none;
      }
 `
-
 const Botoes = styled.div`
     display: flex;
     align-items: center;
@@ -263,8 +247,13 @@ const Botoes = styled.div`
     margin-top: 25px;
     p {
         font-family: 'Lexend Deca', sans-serif;
-         font-size: 21px;
+         font-size: 16px;
          color: #52B6FF;
          margin-right: 20px;
     }
+`
+const DefaultMessage = styled.p`
+    font-size: 18px;
+    color: #666;
+    font-weight: 500;
 `

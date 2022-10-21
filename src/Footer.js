@@ -27,6 +27,12 @@ const FooTer = styled.div`
     bottom: 0; 
     left: 0;
     background-color: white;
+    font-size: 18px;
+    font-weight: 500;
+    a { 
+        text-decoration: none;
+        color: #52B6FF;
+    }
 `
 const Ellipse = styled.div`
     font-family: 'Lexend Deca', sans-serif;
@@ -41,4 +47,8 @@ const Ellipse = styled.div`
     background-color: #52B6FF;
     position: absolute;
     bottom: 15px;
+    font-weight: 500;
+    a {
+        color: white;
+    }
 `

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components"
 import trash from "./Assets/trash.png"
@@ -9,8 +9,7 @@ export default function Habit({habit, setReload}) {
     const { userInfo, setUserInfo } = useContext(UserContext);
     const navigate= useNavigate();
     const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
-    const [selected, setSelected] = useState("red");
-
+    const array = [];
 
     function handleDelete (i) {
         axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${i}`, { headers: { Authorization: `Bearer ${userInfo.token}` }})
@@ -26,7 +25,7 @@ export default function Habit({habit, setReload}) {
         <Habitt>
             <p>{habit.name}</p>
             <WeekDays>
-                {weekdays.map((i, idx) => <Weekday days={habit.days} dia={i} key={idx} idx={idx}/>)}
+                {weekdays.map((i, idx) => <Weekday array={array} days={habit.days} dia={i} key={idx} idx={idx}/>)}
             </WeekDays>
 
             <img onClick={() => handleDelete(habit.id)} src={trash} alt="Delete"/>
@@ -34,11 +33,20 @@ export default function Habit({habit, setReload}) {
     )
 }
 
-    function Weekday ({dia, idx, days}) {
+    function Weekday ({dia, idx, days, array}) {
 
-        const [selected, setSelected] = useState("white");
+        const [selected, setSelected] = useState(false)
+        useEffect(()=> 
 
+        {for (let i = 0; i< days.length; i++) {
+            if (days[i] === idx) {
+                setSelected(true)
+            }
+        }}, [])
+        
+        
 
+        console.log(array)
         return (
             <WeekDay selected={selected}>
                 {dia}
@@ -88,6 +96,8 @@ const WeekDay = styled.li`
     margin: 2px;
     font-size: 20px;
     color: #DBDBDB;
-    border: 1px solid #DBDBDB;
+    border: 2px solid ${props => props.selected ? "white" : "#DBDBDB"};
+    background-color: ${props => props.selected ? "#52B6FF" : "white"};
     border-radius: 5px;
+    color: ${props => props.selected ? "white" : "#DBDBDB"};
 `

@@ -1,19 +1,16 @@
 import axios from "axios";
 import styled from "styled-components";
-import logo from "./Assets/TrackIt.png"
 import { useContext, useEffect, useState } from "react"
 import { UserContext } from "./userContext"
-import { Link } from "react-router-dom"
-import dayjs from "dayjs";
 import check from "./Assets/check.png"
-
+import NavBar from "./Navbar";
+import Footer from "./Footer"
 
 let total = 0;
 let total1 = 0;
 
 export default function TodayPage() {
 
-    const [pointerEvents, setPointerEvents] = useState("");
     const { userInfo, setUserInfo } = useContext(UserContext);
     const token = userInfo.token;
     const [habitInfo, setHabitInfo] = useState([])
@@ -28,13 +25,11 @@ export default function TodayPage() {
     function contador () {
         const newArray = habitInfo.filter((i) => i.done);
        
-        total = (newArray.length/habitInfo.length)*100;
-        console.log(total)
+        total = Math.round((newArray.length/habitInfo.length)*100);
     }
 
     contador();
 
-    console.log(habitInfo)
     useEffect(() => {
         axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today", { headers: { Authorization: `Bearer ${token}` } })
             .then(res => {
@@ -47,19 +42,13 @@ export default function TodayPage() {
   
     return (
         <>
-          
-            <Navbar>
-                <Link to="/">
-                    <img src={logo} alt="TrackIt Logo" />
-                </Link>
-
-                <UserImg src={userInfo.image} alt="Imagem do Usuário" />
-            </Navbar>
+            <NavBar/>
+            
 
             <Content>
                 <Info>
                     <p>Quinta, 20/10</p>
-                    {total === 0 ? <p>Nenhum hábito concluido ainda</p> : <p>{total}% dos hábitos concluidos</p>}
+                    {(total === 0 || isNaN(total))? <p>Nenhum hábito concluido ainda</p> : <p>{total}% dos hábitos concluidos</p>}
                     
                 </Info>
 
@@ -69,24 +58,26 @@ export default function TodayPage() {
             </Content>
 
 
-            <Footer>
-                <p>Hábitos</p>
-
-                <Ellipse><Link to="/hoje">Hoje</Link></Ellipse>
-
-                <p>Histórico</p>
-            </Footer>
+            <Footer/>
         </>
     )
 }
 
     function Habit ({ setTeste, token, id, done, sequence, record, name}) {
-        const config = "lalala"
+
+        const [color, setColor] = useState("#666666");
+        const [record1, setRecord1] = useState(false)
 
 
         function handleCheck (idHabito, done) {
             if (!done) {
-                axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idHabito}/check`, config,  { headers: { Authorization: `Bearer ${token}` } })
+
+                if(sequence >= record) {
+                    setRecord1(true)
+                }
+    
+                setColor("#8FC549")
+                axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idHabito}/check`, {},  { headers: { Authorization: `Bearer ${token}` } })
                 .then(res =>setTeste("321"))
                 .catch(err => console.log(err.response.data));
                
@@ -94,7 +85,12 @@ export default function TodayPage() {
             }
 
             if (done) {
-                axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idHabito}/uncheck`, config,  { headers: { Authorization: `Bearer ${token}` } })
+                if(sequence <= record) {
+                    setRecord1(false)
+                }
+                setColor("#666")
+
+                axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idHabito}/uncheck`, {},  { headers: { Authorization: `Bearer ${token}` } })
                 .then(res => setTeste("321"))
                 .catch(err => console.log(err.response.data));
             }
@@ -102,14 +98,11 @@ export default function TodayPage() {
         }
 
         return (
-
-            
-
             <Habito>
                 <HabitoConteudo>
                     <HabitName>{name}</HabitName>
-                    <HabitInfo>Sequencia Atual: {sequence} dias</HabitInfo>
-                    <HabitInfo>Seu recorde: {record} dias</HabitInfo>
+                    <HabitInfoSeq color={color}>Sequencia Atual: <span>{sequence} {sequence === 1 ? "dia" : "dias"}</span></HabitInfoSeq>
+                    <HabitInfoRec record={record1}>Seu recorde: <span>{record} {record === 1 ? "dia" : "dias"}</span></HabitInfoRec>
                 </HabitoConteudo>
                 <Checkbox  onClick={()=> handleCheck(id, done)} done={done}>
                     <img src={check} alt="checksymbol"/>
@@ -131,17 +124,6 @@ const Navbar = styled.div`
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
     position: fixed;
     top: 0; 
-    left: 0;
-`
-const Footer = styled.div`
-    font-family: 'Lexend Deca', sans-serif;
-    width: 100%;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    position: fixed;
-    bottom: 0; 
     left: 0;
 `
 const Ellipse = styled.div`
@@ -205,8 +187,20 @@ const HabitName = styled.p`
     font-size: 20 px;
     color: #666666;
 `
-const HabitInfo = styled.p`
+const HabitInfoSeq = styled.p`
     font-family: 'Lexend Deca', sans-serif;
     font-size: 13px;
     color: #666666;
+    span {
+        color: ${props => props.color}
+    }
+`
+const HabitInfoRec = styled.p`
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 13px;
+    color: #666;
+    span {
+        color: ${props => props.record ? "#8FC549": "#666"};
+    }
+    
 `

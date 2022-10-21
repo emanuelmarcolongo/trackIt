@@ -1,15 +1,13 @@
 import styled from "styled-components"
-import logo from "./Assets/TrackIt.png"
 import { useContext, useEffect, useState } from "react"
 import { UserContext } from "./userContext"
-import { Link } from "react-router-dom"
 import axios from "axios"
 import Habit from "./Habit"
 import Footer from "./Footer"
+import NavBar from "./Navbar"
 
 
-export default function MainPage() {
-
+export default function MainPage({ config }) {
 
     const [habits, setHabits] = useState([])
     const { userInfo, setUserInfo } = useContext(UserContext);
@@ -17,19 +15,20 @@ export default function MainPage() {
     const [days, setDays] = useState([]);
     const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
     const [reload, setReload] = useState(0);
+    const [vh, setVh] = useState("100vh")
+
 
     const token = userInfo.token;
-   
-    const config = {
-        name: "",
-        days: days
-    }
-    
+
+
+
 
     function saveHabit(e) {
         e.preventDefault();
-       
-
+        if (habits.length > 2) {
+            setVh("100%")
+        }
+        config.days = days;
         axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config, { headers: { Authorization: `Bearer ${token}` } })
             .then(res => setReload(res.data.id))
             .catch(err => console.log(err.response.data.message))
@@ -48,14 +47,9 @@ export default function MainPage() {
 
     return (
         <>
-            <Navbar>
-                <Link to="/">
-                    <img src={logo} alt="TrackIt Logo" />
-                </Link>
+            <NavBar />
 
-                <UserImg src={userInfo.image} alt="Imagem do Usuário" />
-            </Navbar>
-            <Content>
+            <Content vh={vh}>
                 <Header>
                     <p> Meus hábitos</p>
                     <div onClick={() => setVisibilidade("")} >+</div>
@@ -75,15 +69,16 @@ export default function MainPage() {
                         </Botoes>
                     </LoginForm>
 
+                  
+                        {habits.length >= 1 ? " " : <DefaultMessage >Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</DefaultMessage>}
+                        {habits.map((item) => <Habit setReload={setReload} key={item.id} habit={item}></Habit>)}
+                   
 
-                    {habits.length >= 1 ? " " : <DefaultMessage >Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</DefaultMessage>}
-
-                    {habits.map((item) => <Habit setReload={setReload} key={item.id} habit={item}></Habit>)}
                 </CriarHabito>
             </Content>
 
-            <Footer/>
-          
+            <Footer />
+
         </>
 
 
@@ -114,26 +109,13 @@ function Weekday({ idx, dia, setDays, days }) {
     return (
         <WeekDay onClick={() => handleClick(idx)} selected={selected}>{dia}</WeekDay>
     )
-
 }
 
 
-const Navbar = styled.div`
-
-    background-color: #126BA5;
-    height: 70px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-    position: fixed;
-    top: 0; 
-    left: 0;
-`
 const Content = styled.div`
     margin-top: 71px;
-    height: 100vh;
+    margin-bottom: 5%;
+    height: ${props => props.vh};
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -141,8 +123,8 @@ const Content = styled.div`
 `
 const CriarHabito = styled.div`
     width: 340px;
-    height: 180px;
-    margin: 0 auto;
+    height: 100%;
+    margin: 0 auto 100px;
     display: flex;
     flex-direction:column;
     > p {
@@ -174,11 +156,6 @@ const Header = styled.div`
         font-size: 28px;
         color: white;
     }
-`
-const UserImg = styled.img`
-    width: 51px;
-    height: 51px;
-    border-radius: 50%;
 `
 export const WeekDays = styled.ul`
     display: flex;
@@ -216,7 +193,7 @@ const LoginForm = styled.form`
      justify-content: center;
      width: 340px;
      background-color: white;
-     border-radius: ;
+     border-radius: 5px;
      display: ${props => props.visibilidade};
      input {
          height: 45px;

@@ -6,11 +6,12 @@ import MainPage from "./MainPage";
 import { UserContext } from "./userContext";
 import { useState } from "react";
 import TodayPage from "./TodayPage";
-
+import HistoryPage from "./HistoryPage"
 
 function App() {
 
   const [userInfo, setUserInfo] = useState({})
+  const config = {name: "", days: []}
 
 
   return (
@@ -24,8 +25,9 @@ function App() {
 
 
             <Route path="/cadastro" element={<RegisterPage />} />
-            <Route path="/habitos" element={<MainPage/>} />
+            <Route path="/habitos" element={<MainPage config={config}/>} />
             <Route path="/hoje" element={<TodayPage/>} />
+            <Route path="/historico" element={<HistoryPage/>} />
             
           </Routes>
         </UserContext.Provider>

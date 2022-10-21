@@ -5,9 +5,9 @@ import { UserContext } from "./userContext"
 import check from "./Assets/check.png"
 import NavBar from "./Navbar";
 import Footer from "./Footer"
+import dayjs from "dayjs";
 
 let total = 0;
-let total1 = 0;
 
 export default function TodayPage() {
 
@@ -15,8 +15,11 @@ export default function TodayPage() {
     const token = userInfo.token;
     const [habitInfo, setHabitInfo] = useState([])
     const [teste, setTeste] = useState("")
+    const dia = (dayjs().format("dddd"));
+    const mes = (dayjs().format("M"));
+    const diames = (dayjs().format("D"));
 
-
+    console.log(dia === "Friday")
     const config = {
         name: "",
         days: ""
@@ -47,7 +50,7 @@ export default function TodayPage() {
 
             <Content>
                 <Info>
-                    <p>Quinta, 20/10</p>
+                    <span><p>{dia}, {diames}/{mes}</p></span>
                     {(total === 0 || isNaN(total))? <p>Nenhum hábito concluido ainda</p> : <p>{total}% dos hábitos concluidos</p>}
                     
                 </Info>
@@ -154,10 +157,20 @@ const Content = styled.div `
     margin-bottom: 200px;
  
 `
-const Info = styled.div`
- font-family: 'Lexend Deca', sans-serif;
-   font-size: 20 px;
-   margin-bottom: 60px;
+const Info = styled.div` 
+    display: flex;
+    width: 340px;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 60px;
+    span {
+        color: #126BA5;
+        font-size: 23px;
+        margin-bottom: 15px;
+    }
 `
 const Habito = styled.div`
     box-sizing: border-box;

@@ -3,17 +3,17 @@ import Footer from "./Footer";
 import NavBar from "./Navbar";
 
 
-export default function HistoryPage () {
+export default function HistoryPage() {
     return (
         <>
 
-            <NavBar/>
+            <NavBar />
             <Header>
-                    <p> Histórico</p>
-                    <>Em breve você poderá ver o histórico dos seus hábitos aqui!</>
-                </Header>
-            
-            <Footer/>
+                <p> Histórico</p>
+                <>Em breve você poderá ver o histórico dos seus hábitos aqui!</>
+            </Header>
+
+            <Footer />
         </>
     )
 }
@@ -23,17 +23,20 @@ const Header = styled.div`
     color: #666666;
     display: flex;
     flex-direction: column;
-    width: 340px;
+    width: 100%;
     margin: 0 auto;
     align-items: flex-start;
-    justify-content: space-between;
     margin-bottom: 15px;
-    margin-top: 100px;
+    background-color: white;
+    height: 100vh;
+    padding-left: 30px;
+    font-size: 18px;
+    color: #666666;
     p {
-        
+        margin-top: 100px;
+        margin-bottom: 20px;
         color: #126BA5;
         font-size: 23px;
         font-weight: 600;
-        margin-bottom: 50px;
     }
 `

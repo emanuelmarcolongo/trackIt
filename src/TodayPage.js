@@ -42,10 +42,10 @@ export default function TodayPage({ valor, setValor }) {
             <NavBar />
 
 
-            <Content>
+            <Content data-identifier="today-infos">
                 <Info>
-                    <span><p>{dia}</p></span>
-                    {(valor === 0 || isNaN(valor)) ? <p>Nenhum hábito concluido ainda</p> : <ProgressMessage>{valor}% dos hábitos concluidos</ProgressMessage>}
+                    <span data-identifier="today-infos" ><p>{dia}</p></span>
+                    {(valor === 0 || isNaN(valor)) ? <p>Nenhum hábito concluido ainda</p> : <ProgressMessage data-identifier="today-infos">{valor}% dos hábitos concluidos</ProgressMessage>}
 
                 </Info>
 
@@ -60,7 +60,7 @@ export default function TodayPage({ valor, setValor }) {
     )
 }
 
-function Habit({ teste, setTeste, token, id, done, sequence, record, name }) {
+function Habit({ setTeste, token, id, done, sequence, record, name }) {
 
     const [color, setColor] = useState("#666666");
     const [record1, setRecord1] = useState(false)
@@ -70,7 +70,7 @@ function Habit({ teste, setTeste, token, id, done, sequence, record, name }) {
         if (sequence >= record) {
             setRecord1(true);
         }
-        else if (sequence <= record || record=== 0) {
+        else if (sequence < record || record=== 0) {
             setRecord1(false);
         }
         if (!done) {
@@ -87,6 +87,7 @@ function Habit({ teste, setTeste, token, id, done, sequence, record, name }) {
             if (sequence === record) {
                 setRecord1(true)
             }
+
             axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idHabito}/check`, {}, { headers: { Authorization: `Bearer ${token}` } })
                 .then(res => setTeste("321"))
                 .catch(err => console.log(err.response.data));
@@ -97,7 +98,7 @@ function Habit({ teste, setTeste, token, id, done, sequence, record, name }) {
         if (done) {
         
             setColor("#666");
-            if (record > sequence || record === 0) {
+            if (record > sequence || record === 1) {
                 setRecord1(false)
             }
           
@@ -116,7 +117,7 @@ function Habit({ teste, setTeste, token, id, done, sequence, record, name }) {
                 <HabitInfoSeq color={color}>Sequencia Atual: <span>{sequence} {sequence === 1 ? "dia" : "dias"}</span></HabitInfoSeq>
                 <HabitInfoRec record={record1}>Seu recorde: <span>{record} {record === 1 ? "dia" : "dias"}</span></HabitInfoRec>
             </HabitoConteudo>
-            <Checkbox onClick={() => handleCheck(id, done)} done={done}>
+            <Checkbox data-identifier="done-habit-btn" onClick={() => handleCheck(id, done)} done={done}>
                 <img src={check} alt="checksymbol" />
             </Checkbox>
         </Habito>
@@ -125,38 +126,6 @@ function Habit({ teste, setTeste, token, id, done, sequence, record, name }) {
 }
 
 
-const Navbar = styled.div`
-
-    background-color: #126BA5;
-    height: 70px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-    position: fixed;
-    top: 0; 
-    left: 0;
-`
-const Ellipse = styled.div`
-    font-family: 'Lexend Deca', sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 91px;
-    width: 91px;
-    font-size: 18px;
-    border-radius: 50%;
-    color: white;
-    background-color: #52B6FF;
-    position: absolute;
-    bottom: 15px;
-`
-const UserImg = styled.img`
-    width: 51px;
-    height: 51px;
-    border-radius: 50%;
-`
 const Content = styled.div`
     font-family: 'Lexend Deca', sans-serif;
     display: flex; 

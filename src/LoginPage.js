@@ -36,9 +36,9 @@ export default function LoginPage({body}) {
         <LoginContainer>
             <img src={logo} alt="Trackt Logo"/>
             <LoginForm onSubmit={handleClick}>
-                <input required disabled={disable} type="email" onChange={e => body.email = e.target.value}     name="e-mail" placeholder="email"></input>
-                <input required disabled={disable} type="password" onChange={e => body.password = e.target.value}     name="password" placeholder="senha"></input>
-                <button  disabled={disable} type="submit" >{disable 
+                <input required disabled={disable} data-identifier="input-email" type="email" onChange={e => body.email = e.target.value}     name="e-mail" placeholder="email"></input>
+                <input required disabled={disable} type="password" data-identifier="input-password" onChange={e => body.password = e.target.value}     name="password" placeholder="senha"></input>
+                <button data-identifier="login-btn" disabled={disable} type="submit" >{disable 
                 ?
                 <ThreeDots 
                 height="30" 
@@ -56,7 +56,7 @@ export default function LoginPage({body}) {
                
             </LoginForm>
 
-            <Link to="/cadastro">  <p>Não tem uma conta? Cadastre-se</p></Link>
+            <Link data-identifier="sign-up-action" to="/cadastro">  <p>Não tem uma conta? Cadastre-se</p></Link>
           
         </LoginContainer>
     )
@@ -82,5 +82,7 @@ const LoginContainer = styled.div`
         font-size: 14px;
         margin-top: 25px;
     }
-
+    a {
+        text-decoration: none;
+    }
 `

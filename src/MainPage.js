@@ -5,7 +5,6 @@ import axios from "axios"
 import Habit from "./Habit"
 import Footer from "./Footer"
 import NavBar from "./Navbar"
-import loader from "./Assets/loader.gif"
 import { ThreeDots } from "react-loader-spinner"
 
 export default function MainPage({ config, valor, setValor }) {
@@ -85,17 +84,17 @@ export default function MainPage({ config, valor, setValor }) {
                 </Header>
 
                 <CriarHabito >
-                    <LoginForm visibilidade={visibilidade} onSubmit={saveHabit}>
-                        <input disabled={disable} type="text" name="name" value={habitName} onChange={(e) => setHabitName(e.target.value) }
+                    <LoginForm data-identifier="create-habit-btn" visibilidade={visibilidade} onSubmit={saveHabit}>
+                        <input disabled={disable} type="text" data-identifier="input-habit-name" name="name" value={habitName} onChange={(e) => setHabitName(e.target.value) }
                             placeholder="Nome do Hábito"></input>
-                        <WeekDays>
+                        <WeekDays data-identifier="week-day-btn">
                             {weekdays.map((i, idx) => <Weekday habitName={habitName} disabled={disable} idx={idx} days={days} setDays={setDays} key={idx} dia={i} />)}
 
                         </WeekDays>
 
                         <Botoes>
-                            <p onClick={() => setVisibilidade("none")} >Cancelar</p>
-                            <Save disabled={disable} type="submit">{disable ?
+                            <p data-identifier="cancel-habit-create-btn" onClick={() => setVisibilidade("none")} >Cancelar</p>
+                            <Save data-identifier="save-habit-create-btn" disabled={disable} type="submit">{disable ?
                                 <ThreeDots
                                     height="30"
                                     width="80"
@@ -110,7 +109,7 @@ export default function MainPage({ config, valor, setValor }) {
                     </LoginForm>
 
 
-                    {habits.length >= 1 ? " " : <DefaultMessage >Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</DefaultMessage>}
+                    {habits.length >= 1 ? " " : <DefaultMessage data-identifier="no-habit-message" >Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</DefaultMessage>}
                     {habits.map((item) => <Habit setReload={setReload} key={item.id} habit={item}></Habit>)}
 
 

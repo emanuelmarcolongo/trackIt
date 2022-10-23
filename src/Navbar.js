@@ -16,7 +16,7 @@ export default function NavBar() {
                 <img src={logo} alt="TrackIt Logo" />
             </Link>
 
-            <UserImg src={userInfo.image} alt="Imagem do Usuário" />
+            <UserImg  data-identifier="avatar" src={userInfo.image} alt="Imagem do Usuário" />
         </Navbar>
     )
 }

@@ -1,18 +1,16 @@
 import axios from "axios"
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components"
 import trash from "./Assets/trash.png"
 import { UserContext } from "./userContext";
 
 export default function Habit({ habit, setReload }) {
     const { userInfo, setUserInfo } = useContext(UserContext);
-    const navigate = useNavigate();
     const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
     const array = [];
 
     function handleDelete(i) {
-        if (window.confirm("Tem certeza que quer excluir o hábito?") == true) {
+        if (window.confirm("Tem certeza que quer excluir o hábito?") === true) {
             axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${i}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
                 .then(res => setReload([]))
                 .catch(err => alert(err.response.data))
@@ -26,12 +24,12 @@ export default function Habit({ habit, setReload }) {
 
     return (
         <Habitt>
-            <p>{habit.name}</p>
+            <p data-identifier="habit-name" >{habit.name}</p>
             <WeekDays>
                 {weekdays.map((i, idx) => <Weekday array={array} days={habit.days} dia={i} key={idx} idx={idx} />)}
             </WeekDays>
 
-            <img onClick={() => handleDelete(habit.id)} src={trash} alt="Delete" />
+            <img data-identifier="delete-habit-btn" onClick={() => handleDelete(habit.id)} src={trash} alt="Delete" />
         </Habitt>
     )
 }

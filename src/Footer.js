@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
+import {CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 export default function Footer({ valor }) {
     return (
         <FooTer>
-            <Link to="/habitos"><p>Hábitos</p></Link>
+            <Link data-identifier="habit-page-action" to="/habitos"><p>Hábitos</p></Link>
 
             <ProgressBarContainer>
                 <Link to="/hoje">
@@ -59,7 +59,7 @@ export default function Footer({ valor }) {
                 </Link>
             </ProgressBarContainer>
 
-            <Link to="/historico"> <p>Histórico</p></Link>
+            <Link data-identifier="historic-page-action" to="/historico"> <p>Histórico</p></Link>
 
         </FooTer>
     )
@@ -82,25 +82,6 @@ const FooTer = styled.div`
     a { 
         text-decoration: none;
         color: #52B6FF;
-    }
-   
-`
-const Ellipse = styled.div`
-    font-family: 'Lexend Deca', sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 91px;
-    width: 91px;
-    font-size: 18px;
-    border-radius: 50%;
-    color: white;
-    background-color: #52B6FF;
-    position: absolute;
-    bottom: 15px;
-    font-weight: 500;
-    a {
-        color: white;
     }
 `
 const ProgressBarContainer = styled.div`

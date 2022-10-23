@@ -20,9 +20,17 @@ export const LoginForm = styled.form`
      button {
          font-family: 'Lexend Deca', sans-serif;
          height: 45px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
          border-radius: 4.5px;
          background-color: #52B6FF;
          font-size: 21px;
          color: #fff;
+         img {
+            width: 40px;
+            height: 40px;
+            color: white;
+         }
      }
 `

@@ -1,43 +1,69 @@
 import styled from "styled-components"
 import { useContext, useEffect, useState } from "react"
-import { UserContext } from "./userContext"
+import { TodayContext, UserContext } from "./userContext"
 import axios from "axios"
 import Habit from "./Habit"
 import Footer from "./Footer"
 import NavBar from "./Navbar"
+import loader from "./Assets/loader.gif"
+import { ThreeDots } from "react-loader-spinner"
 
-
-export default function MainPage({ config }) {
+export default function MainPage({ config, valor, setValor }) {
 
     const [habits, setHabits] = useState([])
     const { userInfo, setUserInfo } = useContext(UserContext);
+    const { todayInfo, setTodayInfo } = useContext(TodayContext);
     const [visibilidade, setVisibilidade] = useState("none");
     const [days, setDays] = useState([]);
     const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
     const [reload, setReload] = useState(0);
     const [vh, setVh] = useState("100vh")
-
-
+    const [disable, setDisable] = useState(false)
     const token = userInfo.token;
 
 
+    function contador() {
+        if (todayInfo.length > 0) {
+            const newArray = todayInfo.filter((i) => i.done);
+            setValor(Math.round((newArray.length / todayInfo.length) * 100));
+        }
+
+    }
+
+    contador();
 
 
     function saveHabit(e) {
         e.preventDefault();
+        setDisable(true);
+
         if (habits.length > 2) {
             setVh("100%")
         }
+
         config.days = days;
         axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config, { headers: { Authorization: `Bearer ${token}` } })
-            .then(res => setReload(res.data.id))
-            .catch(err => console.log(err.response.data.message))
+            .then(res => {
+                setReload(res.data.id);
+                setDisable(false);
+                setVisibilidade("none");
+            })
+            .catch(err => {
+                alert(err.response.data.message)
+                setDisable(false)
+            })
     }
 
     useEffect(() => {
         axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", { headers: { Authorization: `Bearer ${token}` } })
             .then(res => {
                 setHabits(res.data)
+            })
+            .catch(err => console.log(err.response.data));
+
+        axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today", { headers: { Authorization: `Bearer ${token}` } })
+            .then(res => {
+                setTodayInfo(res.data)
             })
             .catch(err => console.log(err.response.data))
     }, [reload])
@@ -57,27 +83,38 @@ export default function MainPage({ config }) {
 
                 <CriarHabito >
                     <LoginForm visibilidade={visibilidade} onSubmit={saveHabit}>
-                        <input type="text" name="name" onChange={(e) => config.name = e.target.value} placeholder="Nome do Hábito"></input>
+                        <input disabled={disable} type="text" name="name" onChange={(e) => config.name = e.target.value}
+                            placeholder="Nome do Hábito"></input>
                         <WeekDays>
-                            {weekdays.map((i, idx) => <Weekday idx={idx} days={days} setDays={setDays} key={idx} dia={i} />)}
+                            {weekdays.map((i, idx) => <Weekday disabled={disable} idx={idx} days={days} setDays={setDays} key={idx} dia={i} />)}
 
                         </WeekDays>
 
                         <Botoes>
                             <p onClick={() => setVisibilidade("none")} >Cancelar</p>
-                            <Save type="submit">Salvar</Save>
+                            <Save disabled={disable} type="submit">{disable ?
+                                <ThreeDots
+                                    height="30"
+                                    width="80"
+                                    radius="9"
+                                    color="white"
+                                    ariaLabel="three-dots-loading"
+                                    wrapperStyle={{}}
+                                    wrapperClassName=""
+                                    visible={true} />
+                                : "Salvar"}</Save>
                         </Botoes>
                     </LoginForm>
 
-                  
-                        {habits.length >= 1 ? " " : <DefaultMessage >Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</DefaultMessage>}
-                        {habits.map((item) => <Habit setReload={setReload} key={item.id} habit={item}></Habit>)}
-                   
+
+                    {habits.length >= 1 ? " " : <DefaultMessage >Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</DefaultMessage>}
+                    {habits.map((item) => <Habit setReload={setReload} key={item.id} habit={item}></Habit>)}
+
 
                 </CriarHabito>
             </Content>
 
-            <Footer />
+            <Footer valor={valor} />
 
         </>
 
@@ -183,6 +220,11 @@ const Save = styled.button`
          background-color: #52B6FF;
          font-size: 21px;
          color: #fff;
+         img {
+            width: 30px;
+            height: 30px;
+            color: white;
+         }
 `
 const LoginForm = styled.form`
      font-family: 'Lexend Deca', sans-serif;

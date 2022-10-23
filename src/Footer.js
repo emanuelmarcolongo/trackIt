@@ -1,16 +1,66 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
+import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
-
-export default function Footer() {
+export default function Footer({ valor }) {
     return (
         <FooTer>
             <Link to="/habitos"><p>Hábitos</p></Link>
 
-            <Ellipse><Link to="/hoje">Hoje</Link></Ellipse>
+            <ProgressBarContainer>
+                <Link to="/hoje">
+                    <ProgressBarOutline>
+                    <ProgressBarSize>
+                        <CircularProgressbar 
+                        value={valor} 
+                        text="Hoje" 
+                        background="true"   
+                        styles={{
+                            // Customize the root svg element
+                            root: {},
+                            // Customize the path, i.e. the "completed progress"
+                            path: {
+                              // Path color
+                              stroke: `white`,
+                              // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                              strokeLinecap: 'round',
+                              // Customize transition animation
+                              transition: 'stroke-dashoffset 0.5s ease 0s',
+                              // Rotate the path
+                              transform: 'rotate(0.25turn)',
+                              transformOrigin: 'center center',
+                            },
+                            // Customize the circle behind the path, i.e. the "total progress"
+                            trail: {
+                              // Trail color
+                              stroke: '#52B6FF',
+                              // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                              strokeLinecap: 'butt',
+                              // Rotate the trail
+                              transform: 'rotate(0.25turn)',
+                              transformOrigin: 'center center',
+                            },
+                            // Customize the text
+                            text: {
+                              // Text color
+                              fill: 'white',
+                              // Text size
+                              fontSize: '20px',
+                            },
+                            // Customize background - only used when the `background` prop is true
+                            background: {
+                              fill: '#52B6FF'
+                            },
+                          }}
+                        />
+                    </ProgressBarSize>
+                    </ProgressBarOutline>
+                </Link>
+            </ProgressBarContainer>
 
             <Link to="/historico"> <p>Histórico</p></Link>
-           
+
         </FooTer>
     )
 }
@@ -22,7 +72,7 @@ const FooTer = styled.div`
     height: 70px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
     position: fixed;
     bottom: 0; 
     left: 0;
@@ -33,6 +83,7 @@ const FooTer = styled.div`
         text-decoration: none;
         color: #52B6FF;
     }
+   
 `
 const Ellipse = styled.div`
     font-family: 'Lexend Deca', sans-serif;
@@ -51,4 +102,25 @@ const Ellipse = styled.div`
     a {
         color: white;
     }
+`
+const ProgressBarContainer = styled.div`
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+`
+const ProgressBarSize = styled.div`
+    width: 91px;
+    height: 91px;
+    border-radius: 50%;
+`
+const ProgressBarOutline = styled.div`
+    width: 102px;
+    height: 102px;
+    border-radius: 50%;
+    background-color: #52B6FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `

@@ -1,9 +1,21 @@
+import { useContext } from "react";
 import styled from "styled-components";
 import Footer from "./Footer";
 import NavBar from "./Navbar";
+import { TodayContext } from "./userContext";
 
 
-export default function HistoryPage() {
+export default function HistoryPage({valor, setValor}) {
+    const { todayInfo, setTodayInfo } = useContext(TodayContext);
+
+    function contador() {
+
+        const newArray = todayInfo.filter((i) => i.done);
+
+        setValor (Math.round((newArray.length / todayInfo.length) * 100));
+        
+    }
+
     return (
         <>
 
@@ -13,7 +25,7 @@ export default function HistoryPage() {
                 <>Em breve você poderá ver o histórico dos seus hábitos aqui!</>
             </Header>
 
-            <Footer />
+            <Footer valor={valor} />
         </>
     )
 }

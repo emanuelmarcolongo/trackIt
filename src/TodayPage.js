@@ -8,10 +8,9 @@ import Footer from "./Footer"
 import dayjs from "dayjs";
 
 
-let total = 0;
 
-export default function TodayPage() {
-    require('dayjs/locale/pt-br')
+export default function TodayPage({ valor, setValor }) {
+
 
     const { userInfo, setUserInfo } = useContext(UserContext);
     const token = userInfo.token;
@@ -21,10 +20,9 @@ export default function TodayPage() {
 
 
 
-    function contador () {
+    function contador() {
         const newArray = habitInfo.filter((i) => i.done);
-       
-        total = Math.round((newArray.length/habitInfo.length)*100);
+        setValor(Math.round((newArray.length / habitInfo.length) * 100));
     }
 
     contador();
@@ -32,84 +30,100 @@ export default function TodayPage() {
     useEffect(() => {
         axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today", { headers: { Authorization: `Bearer ${token}` } })
             .then(res => {
-               setHabitInfo(res.data)
-               contador();
+                setHabitInfo(res.data)
+                contador();
             })
             .catch(err => console.log(err.response.data))
     }, [teste])
 
-  
+
     return (
         <>
-            <NavBar/>
-            
+            <NavBar />
+
 
             <Content>
                 <Info>
                     <span><p>{dia}</p></span>
-                    {(total === 0 || isNaN(total))? <p>Nenhum hábito concluido ainda</p> : <p>{total}% dos hábitos concluidos</p>}
-                    
+                    {(valor === 0 || isNaN(valor)) ? <p>Nenhum hábito concluido ainda</p> : <p>{valor}% dos hábitos concluidos</p>}
+
                 </Info>
 
 
-                {habitInfo.map((i) => <Habit 
-                setTeste = {setTeste} token={token} id={i.id} key={i.id} done={i.done} sequence={i.currentSequence} record={i.highestSequence} name={i.name} />)} 
+                {habitInfo.map((i) => <Habit
+                    setTeste={setTeste} teste={teste} token={token} id={i.id} key={i.id} done={i.done} sequence={i.currentSequence} record={i.highestSequence} name={i.name} />)}
             </Content>
 
 
-            <Footer/>
+            <Footer valor={valor} />
         </>
     )
 }
 
-    function Habit ({ setTeste, token, id, done, sequence, record, name}) {
+function Habit({ teste, setTeste, token, id, done, sequence, record, name }) {
 
-        const [color, setColor] = useState("#666666");
-        const [record1, setRecord1] = useState(false)
+    const [color, setColor] = useState("#666666");
+    const [record1, setRecord1] = useState(false)
 
 
-        function handleCheck (idHabito, done) {
-            if (!done) {
+    useEffect(() => {
+        if (sequence >= record) {
+            setRecord1(true);
+        }
+        else if (sequence <= record) {
+            setRecord1(false);
+        }
+        if (!done) {
+            setColor("#666")
+        } else if (done) {
+            setColor("#8FC549");
+        }
+    }, [])
 
-                if(sequence >= record) {
-                    setRecord1(true)
-                }
-    
-                setColor("#8FC549")
-                axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idHabito}/check`, {},  { headers: { Authorization: `Bearer ${token}` } })
-                .then(res =>setTeste("321"))
-                .catch(err => console.log(err.response.data));
-               
-               setTeste([])
+
+    function handleCheck(idHabito, done) {
+        if (!done) {
+            setColor("#8FC549");
+            
+            if (sequence === record) {
+                setRecord1(true)
             }
-
-            if (done) {
-                if(sequence <= record) {
-                    setRecord1(false)
-                }
-                setColor("#666")
-
-                axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idHabito}/uncheck`, {},  { headers: { Authorization: `Bearer ${token}` } })
+            axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idHabito}/check`, {}, { headers: { Authorization: `Bearer ${token}` } })
                 .then(res => setTeste("321"))
                 .catch(err => console.log(err.response.data));
-            }
+
             setTeste([])
         }
 
-        return (
-            <Habito>
-                <HabitoConteudo>
-                    <HabitName>{name}</HabitName>
-                    <HabitInfoSeq color={color}>Sequencia Atual: <span>{sequence} {sequence === 1 ? "dia" : "dias"}</span></HabitInfoSeq>
-                    <HabitInfoRec record={record1}>Seu recorde: <span>{record} {record === 1 ? "dia" : "dias"}</span></HabitInfoRec>
-                </HabitoConteudo>
-                <Checkbox  onClick={()=> handleCheck(id, done)} done={done}>
-                    <img src={check} alt="checksymbol"/>
-                </Checkbox>
-            </Habito>
-
-        )
+        if (done) {
+            
+            setColor("#666");
+            if (record > sequence) {
+                setRecord1(false)
+            }
+          
+           
+            axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${idHabito}/uncheck`, {}, { headers: { Authorization: `Bearer ${token}` } })
+                .then(res => setTeste("321"))
+                .catch(err => console.log(err.response.data));
+        }
+        setTeste([])
     }
+
+    return (
+        <Habito>
+            <HabitoConteudo>
+                <HabitName>{name}</HabitName>
+                <HabitInfoSeq color={color}>Sequencia Atual: <span>{sequence} {sequence === 1 ? "dia" : "dias"}</span></HabitInfoSeq>
+                <HabitInfoRec record={record1}>Seu recorde: <span>{record} {record === 1 ? "dia" : "dias"}</span></HabitInfoRec>
+            </HabitoConteudo>
+            <Checkbox onClick={() => handleCheck(id, done)} done={done}>
+                <img src={check} alt="checksymbol" />
+            </Checkbox>
+        </Habito>
+
+    )
+}
 
 
 const Navbar = styled.div`
@@ -144,7 +158,7 @@ const UserImg = styled.img`
     height: 51px;
     border-radius: 50%;
 `
-const Content = styled.div `
+const Content = styled.div`
     font-family: 'Lexend Deca', sans-serif;
     display: flex; 
     align-items: center;
@@ -209,7 +223,7 @@ const HabitInfoRec = styled.p`
     font-size: 13px;
     color: #666;
     span {
-        color: ${props => props.record ? "#8FC549": "#666"};
+        color: ${props => props.record ? "#8FC549" : "#666"};
     }
     
 `

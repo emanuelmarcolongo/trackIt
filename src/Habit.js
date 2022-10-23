@@ -5,52 +5,55 @@ import styled from "styled-components"
 import trash from "./Assets/trash.png"
 import { UserContext } from "./userContext";
 
-export default function Habit({habit, setReload}) {
+export default function Habit({ habit, setReload }) {
     const { userInfo, setUserInfo } = useContext(UserContext);
-    const navigate= useNavigate();
+    const navigate = useNavigate();
     const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
     const array = [];
 
-    function handleDelete (i) {
-        axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${i}`, { headers: { Authorization: `Bearer ${userInfo.token}` }})
-        .then(res => setReload([]))
-        .catch(err => alert(err.response.data))
+    function handleDelete(i) {
+        if (window.confirm("Tem certeza que quer excluir o hábito?") == true) {
+            axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${i}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+                .then(res => setReload([]))
+                .catch(err => alert(err.response.data))
 
-        setReload("123")
+            setReload("123")
+        }
+
     }
 
-    
+
 
     return (
         <Habitt>
             <p>{habit.name}</p>
             <WeekDays>
-                {weekdays.map((i, idx) => <Weekday array={array} days={habit.days} dia={i} key={idx} idx={idx}/>)}
+                {weekdays.map((i, idx) => <Weekday array={array} days={habit.days} dia={i} key={idx} idx={idx} />)}
             </WeekDays>
 
-            <img onClick={() => handleDelete(habit.id)} src={trash} alt="Delete"/>
+            <img onClick={() => handleDelete(habit.id)} src={trash} alt="Delete" />
         </Habitt>
     )
 }
 
-    function Weekday ({dia, idx, days, array}) {
+function Weekday({ dia, idx, days, array }) {
 
-        const [selected, setSelected] = useState(false)
-        useEffect(()=> 
-
-        {for (let i = 0; i< days.length; i++) {
+    const [selected, setSelected] = useState(false)
+    useEffect(() => {
+        for (let i = 0; i < days.length; i++) {
             if (days[i] === idx) {
                 setSelected(true)
             }
-        }}, [])
-        
+        }
+    }, [])
 
-        return (
-            <WeekDay selected={selected}>
-                {dia}
-            </WeekDay>
-        )
-    }
+
+    return (
+        <WeekDay selected={selected}>
+            {dia}
+        </WeekDay>
+    )
+}
 
 const Habitt = styled.div`
     width: 340px;

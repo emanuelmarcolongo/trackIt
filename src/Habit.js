@@ -44,9 +44,7 @@ export default function Habit({habit, setReload}) {
             }
         }}, [])
         
-        
 
-        console.log(array)
         return (
             <WeekDay selected={selected}>
                 {dia}

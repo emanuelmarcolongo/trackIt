@@ -7,23 +7,19 @@ import NavBar from "./Navbar";
 import Footer from "./Footer"
 import dayjs from "dayjs";
 
+
 let total = 0;
 
 export default function TodayPage() {
+    require('dayjs/locale/pt-br')
 
     const { userInfo, setUserInfo } = useContext(UserContext);
     const token = userInfo.token;
     const [habitInfo, setHabitInfo] = useState([])
     const [teste, setTeste] = useState("")
-    const dia = (dayjs().format("dddd"));
-    const mes = (dayjs().format("M"));
-    const diames = (dayjs().format("D"));
+    const dia = (dayjs().locale("pt-br").format("dddd, D/M"));
 
-    console.log(dia === "Friday")
-    const config = {
-        name: "",
-        days: ""
-    }
+
 
     function contador () {
         const newArray = habitInfo.filter((i) => i.done);
@@ -50,7 +46,7 @@ export default function TodayPage() {
 
             <Content>
                 <Info>
-                    <span><p>{dia}, {diames}/{mes}</p></span>
+                    <span><p>{dia}</p></span>
                     {(total === 0 || isNaN(total))? <p>Nenhum hábito concluido ainda</p> : <p>{total}% dos hábitos concluidos</p>}
                     
                 </Info>

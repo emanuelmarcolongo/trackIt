@@ -17,10 +17,10 @@ export default function MainPage({ config, valor, setValor }) {
     const [days, setDays] = useState([]);
     const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
     const [reload, setReload] = useState(0);
-    const [vh, setVh] = useState("100vh")
-    const [disable, setDisable] = useState(false)
+    const [vh, setVh] = useState("100vh");
+    const [disable, setDisable] = useState(false);
     const token = userInfo.token;
-
+    const [habitName, setHabitName] = useState("");
 
     function contador() {
         if (todayInfo.length > 0) {
@@ -37,16 +37,19 @@ export default function MainPage({ config, valor, setValor }) {
         e.preventDefault();
         setDisable(true);
 
+
         if (habits.length > 2) {
             setVh("100%")
         }
 
+        config.name = habitName;
         config.days = days;
         axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config, { headers: { Authorization: `Bearer ${token}` } })
             .then(res => {
                 setReload(res.data.id);
                 setDisable(false);
                 setVisibilidade("none");
+                setHabitName("");
             })
             .catch(err => {
                 alert(err.response.data.message)
@@ -83,10 +86,10 @@ export default function MainPage({ config, valor, setValor }) {
 
                 <CriarHabito >
                     <LoginForm visibilidade={visibilidade} onSubmit={saveHabit}>
-                        <input disabled={disable} type="text" name="name" onChange={(e) => config.name = e.target.value}
+                        <input disabled={disable} type="text" name="name" value={habitName} onChange={(e) => setHabitName(e.target.value) }
                             placeholder="Nome do Hábito"></input>
                         <WeekDays>
-                            {weekdays.map((i, idx) => <Weekday disabled={disable} idx={idx} days={days} setDays={setDays} key={idx} dia={i} />)}
+                            {weekdays.map((i, idx) => <Weekday habitName={habitName} disabled={disable} idx={idx} days={days} setDays={setDays} key={idx} dia={i} />)}
 
                         </WeekDays>
 
@@ -124,13 +127,16 @@ export default function MainPage({ config, valor, setValor }) {
 
 
 
-function Weekday({ idx, dia, setDays, days }) {
+function Weekday({ habitName, idx, dia, setDays, days }) {
 
     const [selected, setSelected] = useState("white");
 
+    useEffect(()=> {
+        if (habitName === "") {
+           setSelected("white")
+    }}, []);
+   
     function handleClick(day) {
-
-
         if (!days.includes(day)) {
             setDays([...days, day]);
             setSelected("#52B6FF");

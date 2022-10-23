@@ -27,8 +27,6 @@ function App() {
             <Routes>
 
               <Route path="/" element={<LoginPage body={body} />} />
-
-
               <Route path="/cadastro" element={<RegisterPage body={registerBody} />} />
               <Route path="/habitos" element={<MainPage valor={valor} setValor={setValor} config={config} />} />
               <Route path="/hoje" element={<TodayPage valor={valor} setValor={setValor}/>} />

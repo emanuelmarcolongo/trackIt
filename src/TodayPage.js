@@ -45,7 +45,7 @@ export default function TodayPage({ valor, setValor }) {
             <Content>
                 <Info>
                     <span><p>{dia}</p></span>
-                    {(valor === 0 || isNaN(valor)) ? <p>Nenhum hábito concluido ainda</p> : <p>{valor}% dos hábitos concluidos</p>}
+                    {(valor === 0 || isNaN(valor)) ? <p>Nenhum hábito concluido ainda</p> : <ProgressMessage>{valor}% dos hábitos concluidos</ProgressMessage>}
 
                 </Info>
 
@@ -70,7 +70,7 @@ function Habit({ teste, setTeste, token, id, done, sequence, record, name }) {
         if (sequence >= record) {
             setRecord1(true);
         }
-        else if (sequence <= record) {
+        else if (sequence <= record || record=== 0) {
             setRecord1(false);
         }
         if (!done) {
@@ -84,7 +84,6 @@ function Habit({ teste, setTeste, token, id, done, sequence, record, name }) {
     function handleCheck(idHabito, done) {
         if (!done) {
             setColor("#8FC549");
-            
             if (sequence === record) {
                 setRecord1(true)
             }
@@ -96,9 +95,9 @@ function Habit({ teste, setTeste, token, id, done, sequence, record, name }) {
         }
 
         if (done) {
-            
+        
             setColor("#666");
-            if (record > sequence) {
+            if (record > sequence || record === 0) {
                 setRecord1(false)
             }
           
@@ -226,4 +225,7 @@ const HabitInfoRec = styled.p`
         color: ${props => props.record ? "#8FC549" : "#666"};
     }
     
+`
+const ProgressMessage = styled.p`
+    color: #8FC549;
 `

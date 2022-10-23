@@ -6,11 +6,10 @@ import check from "./Assets/check.png"
 import NavBar from "./Navbar";
 import Footer from "./Footer"
 import dayjs from "dayjs";
-
-
+import locale from "../node_modules/dayjs/locale/pt-br"
 
 export default function TodayPage({ valor, setValor }) {
-
+   
 
     const { userInfo, setUserInfo } = useContext(UserContext);
     const token = userInfo.token;
@@ -67,7 +66,7 @@ function Habit({ setTeste, token, id, done, sequence, record, name }) {
 
 
     useEffect(() => {
-        if (sequence >= record) {
+        if (sequence = record) {
             setRecord1(true);
         }
         else if (sequence < record || record=== 0) {

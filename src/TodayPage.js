@@ -1,7 +1,7 @@
 import axios from "axios";
 import styled from "styled-components";
 import { useContext, useEffect, useState } from "react"
-import { UserContext } from "./userContext"
+import { TodayContext, UserContext } from "./userContext"
 import check from "./Assets/check.png"
 import NavBar from "./Navbar";
 import Footer from "./Footer"
@@ -10,7 +10,7 @@ import locale from "../node_modules/dayjs/locale/pt-br"
 
 export default function TodayPage({ valor, setValor }) {
    
-
+    const { todayInfo, setTodayInfo } = useContext(TodayContext);
     const { userInfo, setUserInfo } = useContext(UserContext);
     const token = userInfo.token;
     const [habitInfo, setHabitInfo] = useState([])

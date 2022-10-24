@@ -88,7 +88,7 @@ export default function MainPage({ config, valor, setValor }) {
                         <input disabled={disable} type="text" data-identifier="input-habit-name" name="name" value={habitName} onChange={(e) => setHabitName(e.target.value) }
                             placeholder="Nome do Hábito"></input>
                         <WeekDays data-identifier="week-day-btn">
-                            {weekdays.map((i, idx) => <Weekday habitName={habitName} disabled={disable} idx={idx} days={days} setDays={setDays} key={idx} dia={i} />)}
+                            {weekdays.map((i, idx) => <Weekday visibilidade={visibilidade} disabled={disable} idx={idx} days={days} setDays={setDays} key={idx} dia={i} />)}
 
                         </WeekDays>
 
@@ -126,15 +126,12 @@ export default function MainPage({ config, valor, setValor }) {
 
 
 
-function Weekday({ habitName, idx, dia, setDays, days }) {
+function Weekday({ visibilidade, idx, dia, setDays, days }) {
 
     const [selected, setSelected] = useState("white");
 
-    useEffect(()=> {
-        if (habitName === "") {
-           setSelected("white")
-    }}, []);
-   
+
+
     function handleClick(day) {
         if (!days.includes(day)) {
             setDays([...days, day]);

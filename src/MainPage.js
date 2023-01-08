@@ -9,8 +9,8 @@ import { ThreeDots } from "react-loader-spinner"
 
 export default function MainPage({ config, valor, setValor }) {
 
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const [habits, setHabits] = useState([])
-    const { userInfo, setUserInfo } = useContext(UserContext);
     const { todayInfo, setTodayInfo } = useContext(TodayContext);
     const [visibilidade, setVisibilidade] = useState("none");
     const [days, setDays] = useState([]);

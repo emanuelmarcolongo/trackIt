@@ -37,7 +37,9 @@ const Header = styled.div`
     flex-direction: column;
     width: 100%;
     margin: 0 auto;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: justify;
     margin-bottom: 15px;
     background-color: white;
     height: 100vh;
@@ -45,6 +47,7 @@ const Header = styled.div`
     font-size: 18px;
     color: #666666;
     p {
+        text-align: justify;
         margin-top: 100px;
         margin-bottom: 20px;
         color: #126BA5;

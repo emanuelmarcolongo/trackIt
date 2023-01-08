@@ -194,7 +194,7 @@ const Info = styled.div`
   display: flex;
   width: 340px;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   font-family: "Lexend Deca", sans-serif;
   font-size: 18px;
   color: #666;
@@ -220,7 +220,7 @@ const Habito = styled.div`
 const HabitoConteudo = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 `;
 const Checkbox = styled.div`
   display: flex;

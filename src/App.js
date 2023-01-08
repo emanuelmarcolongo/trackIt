@@ -2,7 +2,7 @@ import LoginPage from "./LoginPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "./globalStyles";
 import RegisterPage from "./RegisterPage";
-import MainPage from "./MainPage";
+import HabitPage from "./HabitPage.js";
 import { TodayContext, UserContext } from "./userContext";
 import { useState } from "react";
 import TodayPage from "./TodayPage";
@@ -30,7 +30,7 @@ function App() {
               <Route
                 path="/habitos"
                 element={
-                  <MainPage valor={valor} setValor={setValor} config={config} />
+                  <HabitPage valor={valor} setValor={setValor} config={config} />
                 }
               />
               <Route

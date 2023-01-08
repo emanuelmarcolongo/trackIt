@@ -1,20 +1,21 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import logo from "./Assets/imgs/Group8.png"
+import logo from "../../Assets/imgs/Group8.png"
 import axios from "axios"
-import { LoginForm } from "./Constants/StyledComponents"
+import { LoginForm } from "../../Constants/StyledComponents"
 import { ThreeDots } from "react-loader-spinner"
+import { PageContainer } from "../SignInPage/SignInStyles"
+import { url } from "../../Constants/urls"
 
-
-export default function RegisterPage ({body}) {
+export default function SignUpPage ({body}) {
     const [disable, setDisable] = useState(false)
     const navigate = useNavigate();
 
     function register (e) {
         setDisable(true)
         e.preventDefault();
-        axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", body)
+        axios.post(`${url}/auth/sign-up`, body)
         .then(res => {navigate ("/")})
         .catch(err => {
             alert(err.response.data.message);
@@ -24,7 +25,7 @@ export default function RegisterPage ({body}) {
 
 
     return (
-        <LoginContainer>
+        <PageContainer>
         <img src={logo} alt="Trackt Logo"/>
 
         <LoginForm onSubmit={register}>
@@ -48,30 +49,6 @@ export default function RegisterPage ({body}) {
 
         <Link data-identifier="back-to-login-action" to="/"><p>Já tem uma conta? Faça login!</p></Link>
         
-    </LoginContainer>
+    </PageContainer>
     )
 }
-
-
-
-const LoginContainer = styled.div`
-    width: 375px;
-    margin: 0 auto;
-    margin-top: 70px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    img {
-        width: 180px;
-        height: 180px;
-    }
-    p {
-        color: #52B6FF;
-        font-weight: 400;
-        font-size: 14px;
-        margin-top: 25px;
-    }
-    a {
-        text-decoration: none;
-    }
-`

@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
-import styled from "styled-components"
 import logo from "../../Assets/imgs/Group8.png"
 import { LoginForm } from "../../Constants/StyledComponents";
 import { UserContext } from "../../userContext";
 import { ThreeDots } from 'react-loader-spinner'
-
+import { url } from "../../Constants/urls";
+import { PageContainer } from "./SignInStyles";
 
 export default function SignInPage() {
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function SignInPage() {
     setDisable(true);
     e.preventDefault();
 
-    axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", body)
+    axios.post(`${url}/auth/login`, body)
     .then (res => {
         setUserInfo(res.data);
         delete res.data.password;
@@ -69,30 +69,3 @@ export default function SignInPage() {
 }
 
 
-
-
-const PageContainer = styled.div`
-    font-family: 'Lexend Deca', sans-serif;
-    width: 375px;
-    margin: 0 auto;
-    margin-top: 70px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    img {
-        width: 180px;
-        height: 180px;
-    }
-    p {
-        color: #52B6FF;
-        font-weight: 400;
-        font-size: 14px;
-        margin-top: 25px;
-    }
-    a {
-        text-decoration: none;
-    }
-    button {
-        cursor: pointer;
-    }
-`

@@ -1,12 +1,13 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "./globalStyles";
-import RegisterPage from "./RegisterPage";
 import HabitPage from "./HabitPage.js";
 import { TodayContext, UserContext } from "./userContext";
 import { useState } from "react";
 import TodayPage from "./TodayPage";
 import HistoryPage from "./HistoryPage";
 import SignInPage from "./Pages/SignInPage/SignIn-Page.js";
+import SignUpPage from "./Pages/SignUpPage/SignUp-Page.js";
+
 
 function App() {
   const [userInfo, setUserInfo] = useState({});
@@ -25,7 +26,7 @@ function App() {
               <Route path="/" element={<SignInPage />} />
               <Route
                 path="/cadastro"
-                element={<RegisterPage body={registerBody} />}
+                element={<SignUpPage body={registerBody} />}
               />
               <Route
                 path="/habitos"

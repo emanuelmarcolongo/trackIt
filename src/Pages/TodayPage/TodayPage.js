@@ -1,11 +1,11 @@
 import axios from "axios";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import check from "./Assets/imgs/check.png";
-import NavBar from "./Navbar";
-import Footer from "./Constants/Footer";
+import check from "../../Assets/imgs/check.png";
+import NavBar from "../../Navbar";
+import Footer from "../../Constants/Footer";
 import dayjs from "dayjs";
-import locale from "../node_modules/dayjs/locale/pt-br";
+import locale from "dayjs/locale/pt-br";
 import { ThreeDots } from "react-loader-spinner";
 
 export default function TodayPage({ valor, setValor }) {

@@ -23,7 +23,7 @@ export default function Habit({ habit, setReload }) {
         <HabitDaysContainer>
             <p data-identifier="habit-name" >{habit.name}</p>
             <WeekDays>
-                {weekdays.map((i, idx) => <Weekday array={array} days={habit.days} dia={i} key={idx} idx={idx} />)}
+                {weekdays.map((i, idx) => <Weekday  days={habit.days} dia={i} key={idx} idx={idx} />)}
             </WeekDays>
 
             <img data-identifier="delete-habit-btn" onClick={() => handleDelete(habit.id)} src={trash} alt="Delete" />
@@ -31,7 +31,7 @@ export default function Habit({ habit, setReload }) {
     )
 }
 
-function Weekday({ dia, idx, days, array }) {
+function Weekday({ dia, idx, days}) {
 
     const [selected, setSelected] = useState(false)
     useEffect(() => {

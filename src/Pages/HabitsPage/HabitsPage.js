@@ -6,8 +6,9 @@ import Habit from "./Habit.js";
 import Footer from "../../Constants/Footer.js";
 import NavBar from "../../Navbar";
 import { ThreeDots } from "react-loader-spinner";
-import { MarginAuto } from "../../TodayPage";
+import { MarginAuto } from "../TodayPage/TodayPage";
 import { url } from "../../Constants/urls.js";
+import { Weekday } from "./HabitsPage-Components.js";
 
 export default function HabitPage({ config, valor, setValor }) {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -173,31 +174,12 @@ export default function HabitPage({ config, valor, setValor }) {
   );
 }
 
-function Weekday({ visibilidade, idx, dia, setDays, days }) {
-  const [selected, setSelected] = useState("white");
 
-  function handleClick(day) {
-    if (!days.includes(day)) {
-      setDays([...days, day]);
-      setSelected("#52B6FF");
-    } else if (days.includes(day)) {
-      const newArray = days.filter((i) => i !== day);
-      setDays([...newArray]);
-      setSelected("white");
-    }
-  }
-
-  return (
-    <WeekDay onClick={() => handleClick(idx)} selected={selected}>
-      {dia}
-    </WeekDay>
-  );
-}
 
 const Content = styled.div`
   margin-top: 71px;
   margin-bottom: 5%;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -244,19 +226,7 @@ export const WeekDays = styled.ul`
   align-items: center;
   justify-content: flex-start;
 `;
-export const WeekDay = styled.li`
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 2px;
-  font-size: 20px;
-  color: #dbdbdb;
-  border: 1px solid #dbdbdb;
-  border-radius: 5px;
-  background-color: ${(props) => props.selected};
-`;
+
 const Save = styled.button`
   font-family: "Lexend Deca", sans-serif;
   height: 45px;

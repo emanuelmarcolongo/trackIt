@@ -18,7 +18,7 @@ export default function TodayPage({ valor, setValor }) {
   const { todayInfo, setTodayInfo } = useContext(TodayContext);
   const token = userInfo.token;
   const [habitInfo, setHabitInfo] = useState([]);
-  const [teste, setTeste] = useState("");
+  const [updateEffect, setUpdateEffect] = useState(false);
   const dia = dayjs().locale("pt-br").format("dddd, D/M");
 
   contador();
@@ -34,7 +34,7 @@ export default function TodayPage({ valor, setValor }) {
         contador();
       })
       .catch((err) => console.log(err.response.data));
-  }, [teste]);
+  }, [updateEffect]);
 
   return (
     <>
@@ -56,8 +56,8 @@ export default function TodayPage({ valor, setValor }) {
 
         {habitInfo.map((i) => (
           <Habit
-            setTeste={setTeste}
-            teste={teste}
+            setUpdate={setUpdateEffect}
+            teste={updateEffect}
             token={token}
             id={i.id}
             key={i.id}
@@ -74,7 +74,7 @@ export default function TodayPage({ valor, setValor }) {
   );
 }
 
-function Habit({ setTeste, token, id, done, sequence, record, name }) {
+function Habit({ setUpdate, token, id, done, sequence, record, name }) {
   const [color, setColor] = useState("#666666");
   const [record1, setRecord1] = useState(false);
 
@@ -104,10 +104,10 @@ function Habit({ setTeste, token, id, done, sequence, record, name }) {
           {},
           { headers: { Authorization: `Bearer ${token}` } }
         )
-        .then((res) => setTeste("321"))
+        .then((res) => setUpdate(true))
         .catch((err) => console.log(err.response.data));
 
-      setTeste([]);
+      setUpdate([false]);
     }
 
     if (done) {
@@ -122,10 +122,10 @@ function Habit({ setTeste, token, id, done, sequence, record, name }) {
           {},
           { headers: { Authorization: `Bearer ${token}` } }
         )
-        .then((res) => setTeste("321"))
+        .then((res) => setUpdate(true))
         .catch((err) => console.log(err.response.data));
     }
-    setTeste([]);
+    setUpdate([false]);
   }
 
   return (

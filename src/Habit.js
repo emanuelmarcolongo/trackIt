@@ -5,7 +5,7 @@ import trash from "./Assets/imgs/trash.png"
 import { UserContext } from "./userContext";
 
 export default function Habit({ habit, setReload }) {
-    const { userInfo, setUserInfo } = useContext(UserContext);
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
     const array = [];
 

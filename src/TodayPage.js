@@ -1,28 +1,28 @@
 import axios from "axios";
 import styled from "styled-components";
 import { useContext, useEffect, useState } from "react";
-import { TodayContext, UserContext } from "./userContext";
 import check from "./Assets/imgs/check.png";
 import NavBar from "./Navbar";
 import Footer from "./Constants/Footer";
 import dayjs from "dayjs";
 import locale from "../node_modules/dayjs/locale/pt-br";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function TodayPage({ valor, setValor }) {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  
+
   const token = userInfo.token;
   const [habitInfo, setHabitInfo] = useState([]);
   const [updateEffect, setUpdateEffect] = useState(false);
   const dia = dayjs().locale("pt-br").format("dddd, D/M");
+  const [loaded, setLoaded] = useState(false);
 
+  function completedTasksPercentage() {
+    const doneTasks = habitInfo.filter((i) => i.done);
+    setValor(Math.round((doneTasks.length / habitInfo.length) * 100));
+  }
 
-    function completedTasksPercentage() {
-        const doneTasks = habitInfo.filter((i) => i.done);
-        setValor(Math.round((doneTasks.length / habitInfo.length) * 100));
-      }
-
-      completedTasksPercentage();
+  completedTasksPercentage();
 
   useEffect(() => {
     axios
@@ -32,6 +32,7 @@ export default function TodayPage({ valor, setValor }) {
       )
       .then((res) => {
         setHabitInfo(res.data);
+        setLoaded(true);
       })
       .catch((err) => console.log(err.response.data));
   }, [updateEffect, valor]);
@@ -45,7 +46,26 @@ export default function TodayPage({ valor, setValor }) {
           <span data-identifier="today-infos">
             <p>{dia}</p>
           </span>
-          {valor === 0 || isNaN(valor) ? (
+
+          {!loaded && (
+            <MarginAuto>
+                <ThreeDots
+            align-self='center'
+              height="20%"
+              width="50%"
+              margin='0 auto'
+              radius="9"
+              color="blue"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClassName=""
+              visible={true}
+            />
+            </MarginAuto>
+            
+          )}
+
+        {(valor === 0 || isNaN(valor)) ? (
             <p>Nenhum hábito concluido ainda</p>
           ) : (
             <ProgressMessage data-identifier="today-infos">
@@ -226,3 +246,13 @@ const HabitInfoRec = styled.p`
 const ProgressMessage = styled.p`
   color: #8fc549;
 `;
+
+export const MarginAuto = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 30%;
+    margin-bottom: 100vh;
+`

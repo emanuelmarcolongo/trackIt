@@ -26,7 +26,6 @@ export default function MainPage({ config, valor, setValor }) {
         e.preventDefault();
         setDisable(true);
 
-
         if (habits.length > 2) {
             setVh("100%")
         }
@@ -230,6 +229,7 @@ const LoginForm = styled.form`
      border-radius: 5px;
      display: ${props => props.visibilidade};
      input {
+        font-family: 'Lexend Deca', sans-serif;
          height: 45px;
          border: 1px solid #D4D4D4;
          border-radius: 5px;

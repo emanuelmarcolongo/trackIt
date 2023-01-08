@@ -66,6 +66,7 @@ export default function LoginPage({body}) {
 
 
 const LoginContainer = styled.div`
+    font-family: 'Lexend Deca', sans-serif;
     width: 375px;
     margin: 0 auto;
     margin-top: 70px;

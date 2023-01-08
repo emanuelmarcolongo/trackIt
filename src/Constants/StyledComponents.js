@@ -7,6 +7,7 @@ export const LoginForm = styled.form`
      justify-content: center;
      width: 303px;
      input {
+        font-family: 'Lexend Deca', sans-serif;
          height: 45px;
          border: 1px solid #D4D4D4;
          border-radius: 5px;

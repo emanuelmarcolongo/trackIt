@@ -1,14 +1,14 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import logo from "./Assets/imgs/Group8.png"
-import { LoginForm } from "./Constants/StyledComponents";
-import { UserContext } from "./userContext";
+import logo from "../../Assets/imgs/Group8.png"
+import { LoginForm } from "../../Constants/StyledComponents";
+import { UserContext } from "../../userContext";
 import { ThreeDots } from 'react-loader-spinner'
 
 
-export default function LoginPage() {
+export default function SignInPage() {
     const navigate = useNavigate();
     const {userInfo, setUserInfo} = useContext(UserContext);
     const [disable, setDisable] = useState(false);
@@ -39,7 +39,7 @@ export default function LoginPage() {
 
     
     return (
-        <LoginContainer>
+        <PageContainer>
             <img src={logo} alt="Trackt Logo"/>
             <LoginForm onSubmit={handleClick}>
                 <input required disabled={disable} data-identifier="input-email" type="email" onChange={e => body.email = e.target.value}     name="e-mail" placeholder="email"></input>
@@ -64,14 +64,14 @@ export default function LoginPage() {
 
             <Link data-identifier="sign-up-action" to="/cadastro">  <p>Não tem uma conta? Cadastre-se</p></Link>
           
-        </LoginContainer>
+        </PageContainer>
     )
 }
 
 
 
 
-const LoginContainer = styled.div`
+const PageContainer = styled.div`
     font-family: 'Lexend Deca', sans-serif;
     width: 375px;
     margin: 0 auto;
@@ -91,5 +91,8 @@ const LoginContainer = styled.div`
     }
     a {
         text-decoration: none;
+    }
+    button {
+        cursor: pointer;
     }
 `

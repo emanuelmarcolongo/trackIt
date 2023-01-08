@@ -1,8 +1,7 @@
 import axios from "axios"
-import { useContext, useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import styled from "styled-components"
 import trash from "./Assets/imgs/trash.png"
-import { UserContext } from "./userContext";
 
 export default function Habit({ habit, setReload }) {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -20,17 +19,15 @@ export default function Habit({ habit, setReload }) {
 
     }
 
-
-
     return (
-        <Habitt>
+        <HabitDaysContainer>
             <p data-identifier="habit-name" >{habit.name}</p>
             <WeekDays>
                 {weekdays.map((i, idx) => <Weekday array={array} days={habit.days} dia={i} key={idx} idx={idx} />)}
             </WeekDays>
 
             <img data-identifier="delete-habit-btn" onClick={() => handleDelete(habit.id)} src={trash} alt="Delete" />
-        </Habitt>
+        </HabitDaysContainer>
     )
 }
 
@@ -53,7 +50,7 @@ function Weekday({ dia, idx, days, array }) {
     )
 }
 
-const Habitt = styled.div`
+const HabitDaysContainer = styled.div`
     width: 340px;
     height: 91px;
     position: relative;
@@ -86,7 +83,6 @@ const WeekDays = styled.ul`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin-left: 15px;
 `
 const WeekDay = styled.li`
     width: 30px;

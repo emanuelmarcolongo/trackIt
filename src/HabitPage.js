@@ -313,6 +313,7 @@ const Botoes = styled.div`
   align-items: center;
   justify-content: flex-end;
   margin-top: 25px;
+  cursor: pointer;
   p {
     font-family: "Lexend Deca", sans-serif;
     font-size: 16px;

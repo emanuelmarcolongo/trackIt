@@ -1,4 +1,3 @@
-import LoginPage from "./LoginPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "./globalStyles";
 import RegisterPage from "./RegisterPage";
@@ -7,6 +6,7 @@ import { TodayContext, UserContext } from "./userContext";
 import { useState } from "react";
 import TodayPage from "./TodayPage";
 import HistoryPage from "./HistoryPage";
+import SignInPage from "./Pages/SignInPage/SignIn-Page.js";
 
 function App() {
   const [userInfo, setUserInfo] = useState({});
@@ -22,7 +22,7 @@ function App() {
         <UserContext.Provider value={{ userInfo, setUserInfo }}>
           <TodayContext.Provider value={{ todayInfo, setTodayInfo }}>
             <Routes>
-              <Route path="/" element={<LoginPage />} />
+              <Route path="/" element={<SignInPage />} />
               <Route
                 path="/cadastro"
                 element={<RegisterPage body={registerBody} />}

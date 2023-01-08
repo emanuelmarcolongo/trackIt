@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import GlobalStyle from "./globalStyles";
+import GlobalStyle from "./Constants/globalStyles.js";
 import HabitPage from "./HabitPage.js";
 import { TodayContext, UserContext } from "./userContext";
 import { useState } from "react";

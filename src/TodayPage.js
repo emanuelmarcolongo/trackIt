@@ -2,7 +2,7 @@ import axios from "axios";
 import styled from "styled-components";
 import { useContext, useEffect, useState } from "react"
 import { TodayContext, UserContext } from "./userContext"
-import check from "./Assets/check.png"
+import check from "./Assets/imgs/check.png"
 import NavBar from "./Navbar";
 import Footer from "./Footer"
 import dayjs from "dayjs";

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import logo from "./Assets/TrackIt.png"
+import logo from "./Assets/imgs/TrackIt.png"
 import { useContext} from "react"
 import { UserContext } from "./userContext"
 

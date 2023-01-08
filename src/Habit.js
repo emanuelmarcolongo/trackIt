@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components"
-import trash from "./Assets/trash.png"
+import trash from "./Assets/imgs/trash.png"
 import { UserContext } from "./userContext";
 
 export default function Habit({ habit, setReload }) {

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import logo from "./Assets/Group8.png"
+import logo from "./Assets/imgs/Group8.png"
 import axios from "axios"
 import { LoginForm } from "./Constants/StyledComponents"
 import { ThreeDots } from "react-loader-spinner"

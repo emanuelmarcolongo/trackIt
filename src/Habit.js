@@ -64,7 +64,8 @@ const Habitt = styled.div`
     margin-top: 20px;
     padding: 5px;
     background-color: white;
-    border-radius: 5px;
+    border-radius: 6px;
+    border: 1px solid black;
     
     p {
         font-family: 'Lexend Deca', sans-serif;

@@ -1,6 +1,6 @@
 import axios from "axios";
 import styled from "styled-components";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import check from "./Assets/imgs/check.png";
 import NavBar from "./Navbar";
 import Footer from "./Constants/Footer";
@@ -38,7 +38,7 @@ export default function TodayPage({ valor, setValor }) {
   }, [updateEffect, valor]);
 
   return (
-    <>
+    <Container>
       <NavBar />
 
       <Content data-identifier="today-infos">
@@ -62,7 +62,6 @@ export default function TodayPage({ valor, setValor }) {
               visible={true}
             />
             </MarginAuto>
-            
           )}
 
         {(valor === 0 || isNaN(valor)) ? (
@@ -90,7 +89,7 @@ export default function TodayPage({ valor, setValor }) {
       </Content>
 
       <Footer valor={valor} />
-    </>
+    </Container>
   );
 }
 
@@ -176,12 +175,19 @@ function Habit({ setUpdate, token, id, done, sequence, record, name }) {
   );
 }
 
+const Container = styled.div`
+  background-color: #EBEBEB;
+  width: 100%;
+  height: 100vh;
+  padding-top: 100px;
+`
+
 const Content = styled.div`
   font-family: "Lexend Deca", sans-serif;
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-top: 90px;
+  margin-top: 0px;
   margin-bottom: 200px;
 `;
 const Info = styled.div`
@@ -208,6 +214,8 @@ const Habito = styled.div`
   padding: 10px;
   border: 1px solid #666666;
   margin-bottom: 30px;
+  background-color: white;
+  border-radius: 15px;
 `;
 const HabitoConteudo = styled.div`
   display: flex;

@@ -2,11 +2,12 @@ import axios from "axios";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import check from "../../Assets/imgs/check.png";
-import NavBar from "../../Navbar";
-import Footer from "../../Constants/Footer";
+import NavBar from "../../Components/Navbar";
+import Footer from "../../Components/Footer";
 import dayjs from "dayjs";
 import locale from "dayjs/locale/pt-br";
 import { ThreeDots } from "react-loader-spinner";
+import { url } from "../../Constants/urls";
 
 export default function TodayPage({ valor, setValor }) {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -27,7 +28,7 @@ export default function TodayPage({ valor, setValor }) {
   useEffect(() => {
     axios
       .get(
-        "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today",
+        `${url}/habits/today`,
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {

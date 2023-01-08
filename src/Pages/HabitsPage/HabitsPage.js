@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { useContext, useEffect, useState } from "react";
-import { TodayContext } from "../../userContext.js";
+import { TodayContext } from "../../Constants/userContext.js";
 import axios from "axios";
 import Habit from "./Habit.js";
-import Footer from "../../Constants/Footer.js";
-import NavBar from "../../Navbar";
+import Footer from "../../Components/Footer.js";
+import NavBar from "../../Components/Navbar";
 import { ThreeDots } from "react-loader-spinner";
 import { MarginAuto } from "../TodayPage/TodayPage";
 import { url } from "../../Constants/urls.js";
@@ -31,7 +31,7 @@ export default function HabitPage({ config, valor, setValor }) {
     config.days = days;
     axios
       .post(
-        "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
+        `${url}/habits`,
         config,
         { headers: { Authorization: `Bearer ${token}` } }
       )

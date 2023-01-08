@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import Footer from "../../Constants/Footer.js";
-import NavBar from "../../Navbar";
+import Footer from "../../Components/Footer.js";
+import NavBar from "../../Components/Navbar";
 
 
 export default function HistoryPage({valor}) {

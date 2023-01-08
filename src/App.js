@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "./Constants/globalStyles.js";
-import { TodayContext, UserContext } from "./userContext";
+import { TodayContext, UserContext } from "./Constants/userContext";
 import { useState } from "react";
 import TodayPage from "./Pages/TodayPage/TodayPage.js";
 import HistoryPage from "./Pages/HistoryPage/HistoryPage.js";

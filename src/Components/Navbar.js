@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import logo from "./Assets/imgs/TrackIt.png";
+import logo from "../Assets/imgs/TrackIt.png";
 
 export default function NavBar() {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));

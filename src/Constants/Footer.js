@@ -11,7 +11,7 @@ export default function Footer({ valor }) {
             <ProgressBarContainer>
                 <Link to="/hoje">
                     <ProgressBarOutline>
-                    <ProgressBarSize>
+                    <ProgressBarSize >
                         <CircularProgressbar 
                         value={valor} 
                         text="Hoje" 
@@ -47,6 +47,8 @@ export default function Footer({ valor }) {
                               fill: 'white',
                               // Text size
                               fontSize: '20px',
+                              fontWeight: '700',
+                              fontFamily: 'Lexend Deca'
                             },
                             // Customize background - only used when the `background` prop is true
                             background: {
@@ -85,6 +87,7 @@ const FooTer = styled.div`
     }
 `
 const ProgressBarContainer = styled.div`
+font-family: 'Lexend Deca', sans-serif;
     width: 150px;
     height: 150px;
     border-radius: 50%;
@@ -92,9 +95,13 @@ const ProgressBarContainer = styled.div`
     justify-content: center;
 `
 const ProgressBarSize = styled.div`
+    font-family: 'Lexend Deca', sans-serif;
     width: 91px;
     height: 91px;
     border-radius: 50%;
+    > {
+        font-family: 'Lexend Deca', sans-serif;
+    }
 `
 const ProgressBarOutline = styled.div`
     width: 102px;

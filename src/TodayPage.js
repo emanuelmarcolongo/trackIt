@@ -10,18 +10,19 @@ import locale from "../node_modules/dayjs/locale/pt-br";
 
 export default function TodayPage({ valor, setValor }) {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  function contador() {
-    const newArray = habitInfo.filter((i) => i.done);
-    setValor(Math.round((newArray.length / habitInfo.length) * 100));
-  }
-
-  const { todayInfo, setTodayInfo } = useContext(TodayContext);
+  
   const token = userInfo.token;
   const [habitInfo, setHabitInfo] = useState([]);
   const [updateEffect, setUpdateEffect] = useState(false);
   const dia = dayjs().locale("pt-br").format("dddd, D/M");
 
-  contador();
+
+    function completedTasksPercentage() {
+        const doneTasks = habitInfo.filter((i) => i.done);
+        setValor(Math.round((doneTasks.length / habitInfo.length) * 100));
+      }
+
+      completedTasksPercentage();
 
   useEffect(() => {
     axios
@@ -31,10 +32,9 @@ export default function TodayPage({ valor, setValor }) {
       )
       .then((res) => {
         setHabitInfo(res.data);
-        contador();
       })
       .catch((err) => console.log(err.response.data));
-  }, [updateEffect]);
+  }, [updateEffect, valor]);
 
   return (
     <>

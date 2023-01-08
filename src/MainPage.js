@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react"
 import { TodayContext, UserContext } from "./userContext"
 import axios from "axios"
 import Habit from "./Habit"
-import Footer from "./Footer"
+import Footer from "./Constants/Footer.js"
 import NavBar from "./Navbar"
 import { ThreeDots } from "react-loader-spinner"
 

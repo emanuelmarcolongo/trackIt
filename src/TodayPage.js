@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react"
 import { TodayContext, UserContext } from "./userContext"
 import check from "./Assets/imgs/check.png"
 import NavBar from "./Navbar";
-import Footer from "./Footer"
+import Footer from "./Constants/Footer"
 import dayjs from "dayjs";
 import locale from "../node_modules/dayjs/locale/pt-br"
 

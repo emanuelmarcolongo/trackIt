@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import styled from "styled-components";
-import Footer from "./Footer";
+import Footer from "./Constants/Footer.js";
 import NavBar from "./Navbar";
 import { TodayContext } from "./userContext";
 

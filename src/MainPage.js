@@ -21,16 +21,6 @@ export default function MainPage({ config, valor, setValor }) {
     const token = userInfo.token;
     const [habitName, setHabitName] = useState("");
 
-    function contador() {
-        if (todayInfo.length > 0) {
-            const newArray = todayInfo.filter((i) => i.done);
-            setValor(Math.round((newArray.length / todayInfo.length) * 100));
-        }
-
-    }
-
-    contador();
-
 
     function saveHabit(e) {
         e.preventDefault();

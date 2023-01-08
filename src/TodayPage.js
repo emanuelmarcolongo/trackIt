@@ -9,6 +9,11 @@ import dayjs from "dayjs";
 import locale from "../node_modules/dayjs/locale/pt-br"
 
 export default function TodayPage({ valor, setValor }) {
+
+    function contador() {
+        const newArray = habitInfo.filter((i) => i.done);
+        setValor(Math.round((newArray.length / habitInfo.length) * 100));
+    }
    
     const { todayInfo, setTodayInfo } = useContext(TodayContext);
     const { userInfo, setUserInfo } = useContext(UserContext);
@@ -16,13 +21,6 @@ export default function TodayPage({ valor, setValor }) {
     const [habitInfo, setHabitInfo] = useState([])
     const [teste, setTeste] = useState("")
     const dia = (dayjs().locale("pt-br").format("dddd, D/M"));
-
-
-
-    function contador() {
-        const newArray = habitInfo.filter((i) => i.done);
-        setValor(Math.round((newArray.length / habitInfo.length) * 100));
-    }
 
     contador();
 

@@ -1,14 +1,15 @@
 import styled from "styled-components";
 import { useContext, useEffect, useState } from "react";
-import { TodayContext, UserContext } from "./userContext";
+import { TodayContext } from "../../userContext.js";
 import axios from "axios";
-import Habit from "./Habit";
-import Footer from "./Constants/Footer.js";
-import NavBar from "./Navbar";
+import Habit from "./Habit.js";
+import Footer from "../../Constants/Footer.js";
+import NavBar from "../../Navbar";
 import { ThreeDots } from "react-loader-spinner";
-import { MarginAuto } from "./TodayPage";
+import { MarginAuto } from "../../TodayPage";
+import { url } from "../../Constants/urls.js";
 
-export default function MainPage({ config, valor, setValor }) {
+export default function HabitPage({ config, valor, setValor }) {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const [habits, setHabits] = useState([]);
   const { todayInfo, setTodayInfo } = useContext(TodayContext);
@@ -16,7 +17,6 @@ export default function MainPage({ config, valor, setValor }) {
   const [days, setDays] = useState([]);
   const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
   const [reload, setReload] = useState(0);
-  const [vh, setVh] = useState("100vh");
   const [disable, setDisable] = useState(false);
   const token = userInfo.token;
   const [habitName, setHabitName] = useState("");
@@ -25,10 +25,6 @@ export default function MainPage({ config, valor, setValor }) {
   function saveHabit(e) {
     e.preventDefault();
     setDisable(true);
-
-    if (habits.length > 2) {
-      setVh("100%");
-    }
 
     config.name = habitName;
     config.days = days;
@@ -53,7 +49,7 @@ export default function MainPage({ config, valor, setValor }) {
   useEffect(() => {
     axios
       .get(
-        "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
+        `${url}/habits`,
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
@@ -64,7 +60,7 @@ export default function MainPage({ config, valor, setValor }) {
 
     axios
       .get(
-        "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today",
+        `${url}/habits/today`,
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
@@ -77,7 +73,7 @@ export default function MainPage({ config, valor, setValor }) {
     <>
       <NavBar />
 
-      <Content vh={vh}>
+      <Content >
         <Header>
           <p> Meus hábitos</p>
           <div onClick={() => setVisibilidade("")}>+</div>
@@ -201,7 +197,7 @@ function Weekday({ visibilidade, idx, dia, setDays, days }) {
 const Content = styled.div`
   margin-top: 71px;
   margin-bottom: 5%;
-  height: ${(props) => props.vh};
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;

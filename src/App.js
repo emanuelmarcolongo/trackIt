@@ -1,12 +1,13 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "./Constants/globalStyles.js";
-import HabitPage from "./HabitPage.js";
 import { TodayContext, UserContext } from "./userContext";
 import { useState } from "react";
 import TodayPage from "./TodayPage";
-import HistoryPage from "./HistoryPage";
+import HistoryPage from "./HistoryPage.js";
 import SignInPage from "./Pages/SignInPage/SignIn-Page.js";
 import SignUpPage from "./Pages/SignUpPage/SignUp-Page.js";
+import HabitPage from "./Pages/HabitsPage/HabitsPage.js";
+
 
 
 function App() {

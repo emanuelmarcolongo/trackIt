@@ -1,7 +1,7 @@
 import axios from "axios"
 import {useEffect, useState } from "react";
 import styled from "styled-components"
-import trash from "./Assets/imgs/trash.png"
+import trash from "../../Assets/imgs/trash.png"
 
 export default function Habit({ habit, setReload }) {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));

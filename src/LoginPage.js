@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import logo from "./Assets/imgs/Group8.png"
@@ -8,13 +8,16 @@ import { UserContext } from "./userContext";
 import { ThreeDots } from 'react-loader-spinner'
 
 
-export default function LoginPage({body}) {
+export default function LoginPage() {
     const navigate = useNavigate();
+    const {userInfo, setUserInfo} = useContext(UserContext);
+    const [disable, setDisable] = useState(false);
+    const body = {email: "", password: ""};
 
-
-    const {userInfo, setUserInfo} = useContext(UserContext)
-   
-    const [disable, setDisable] = useState(false)
+    if(localStorage.getItem('userInfo') !== null) {
+        setUserInfo(localStorage.getItem('userInfo'));
+        navigate("/hoje");
+    }
 
     function handleClick (e) {
     setDisable(true);
@@ -23,6 +26,9 @@ export default function LoginPage({body}) {
     axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", body)
     .then (res => {
         setUserInfo(res.data);
+        delete res.data.password;
+        delete res.data.email;
+        localStorage.setItem('userInfo', JSON.stringify(res.data));
         navigate("/hoje")
     })
     .catch(err => {

@@ -15,6 +15,15 @@ https://projeto11-trackit-6a01yf5cj-emanuelmarcolongo.vercel.app
   <img src="https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white" alt:"styledComponents"/>
 </div>
 
+## Preview:
+
+### Mobile Layout:
+<div style="display: inline_block"><br>
+  <img width="250" height="500" src="https://github.com/emanuelmarcolongo/trackIt/blob/main/src/Assets/imgs/projectPreview/habitPageMobile.png?raw=true" alt:"HabitPage"/>
+  <img width="250" height="500" src="https://github.com/emanuelmarcolongo/trackIt/blob/main/src/Assets/imgs/projectPreview/todayPageMobile.png?raw=true" alt:"TodayPage"/>
+</div>
+
+
 
 
 

@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "./Constants/globalStyles.js";
-import { UserContext } from "./Constants/userContext";
-import {  useState } from "react";
+import { UserProvider } from "./Constants/userContext";
 import TodayPage from "./Pages/TodayPage/TodayPage.js";
 import HistoryPage from "./Pages/HistoryPage/HistoryPage.js";
 import SignInPage from "./Pages/SignInPage/SignIn-Page.js";
@@ -10,14 +9,12 @@ import HabitPage from "./Pages/HabitsPage/HabitsPage.js";
 
 
 function App() {
-  const [userInfo, setUserInfo] = useState({});
-  const [progress, setProgress] = useState(0);
 
   return (
     <div className="App">
       <BrowserRouter>
         <GlobalStyle />
-        <UserContext.Provider value={{ userInfo, setUserInfo, progress, setProgress }}>
+        <UserProvider>
             <Routes>
               <Route path="/" element={<SignInPage />} />
               <Route
@@ -33,14 +30,14 @@ function App() {
               />
               <Route
                 path="/hoje"
-                element={<TodayPage  />}
+                element={<TodayPage />}
               />
               <Route
                 path="/historico"
                 element={<HistoryPage  />}
               />
             </Routes>
-        </UserContext.Provider>
+          </UserProvider>
       </BrowserRouter>
     </div>
   );

@@ -59,13 +59,13 @@ export default function TodayPage() {
               width='150px'
               margin-bottom='2000px'
               radius="20"
-              color="blue"
+              color="#126BA5"
               ariaLabel="three-dots-loading"
               wrapperStyle={{}}
               wrapperClassName=""
               visible={true}
             />
-            <p style={{color: 'blue'}}>Buscando...</p>
+            <p style={{color: '#126BA5'}}>Buscando...</p>
             </LoaderContainer>
                
 

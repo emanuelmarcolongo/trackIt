@@ -1,6 +1,6 @@
 import axios from "axios";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import NavBar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
 import dayjs from "dayjs";
@@ -8,8 +8,9 @@ import { ThreeDots } from "react-loader-spinner";
 import { url } from "../../Constants/urls";
 import { TodayHabit } from "./TodayPageComponents.js";
 import { Link } from "react-router-dom";
+import {  UserContext } from "../../Constants/userContext";
 
-export default function TodayPage({ valor, setValor }) {
+export default function TodayPage() {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   require('dayjs/locale/pt-br');
   const token = userInfo.token;
@@ -17,10 +18,11 @@ export default function TodayPage({ valor, setValor }) {
   const [updateEffect, setUpdateEffect] = useState(false);
   const dia = dayjs().locale("pt-br").format("dddd, D/M");
   const [loaded, setLoaded] = useState(false);
+  const {progress, setProgress} = useContext(UserContext);
 
   function completedTasksPercentage() {
     const doneTasks = habitList.filter((i) => i.done);
-    setValor(Math.round((doneTasks.length / habitList.length) * 100));
+    setProgress(Math.round((doneTasks.length / habitList.length) * 100));
   }
 
   completedTasksPercentage();
@@ -36,7 +38,9 @@ export default function TodayPage({ valor, setValor }) {
         setLoaded(true);
       })
       .catch((err) => console.log(err.response.data));
-  }, [updateEffect, valor]);
+
+     
+  }, [updateEffect, progress]);
 
   return (
     <Container>
@@ -68,7 +72,7 @@ export default function TodayPage({ valor, setValor }) {
 
           {loaded && habitList.length !== 0  ? (
             <p style={{color: "#8fc549"}} data-identifier="today-infos">
-            {valor}% dos hábitos concluidos
+            {}% dos hábitos concluidos
           </p>
           ) : (
             <></>
@@ -99,7 +103,7 @@ export default function TodayPage({ valor, setValor }) {
         ))}
       </Content>
 
-      <Footer valor={valor} />
+      <Footer progress={progress} />
     </Container>
   );
 }

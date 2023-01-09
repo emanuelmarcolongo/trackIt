@@ -9,7 +9,7 @@ import { LoaderContainer} from "../TodayPage/TodayPage";
 import { url } from "../../Constants/urls.js";
 import { Weekday } from "./HabitsPage-Components.js";
 
-export default function HabitPage({ config, valor, setValor }) {
+export default function HabitPage({valor }) {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const [habits, setHabits] = useState([]);
   const [visibilidade, setVisibilidade] = useState("none");
@@ -20,6 +20,7 @@ export default function HabitPage({ config, valor, setValor }) {
   const token = userInfo.token;
   const [habitName, setHabitName] = useState("");
   const [loaded, setLoaded] = useState(false);
+  const config = { name: "", days: [] };
 
   function saveHabit(e) {
     e.preventDefault();

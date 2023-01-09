@@ -14,7 +14,6 @@ function App() {
   const [userInfo, setUserInfo] = useState({});
   const [todayInfo, setTodayInfo] = useState({});
   const config = { name: "", days: [] };
-  const registerBody = { email: "", name: "", image: "", password: "" };
   const [valor, setValor] = useState(0);
 
   return (
@@ -27,7 +26,7 @@ function App() {
               <Route path="/" element={<SignInPage />} />
               <Route
                 path="/cadastro"
-                element={<SignUpPage body={registerBody} />}
+                element={<SignUpPage />}
               />
               <Route
                 path="/habitos"

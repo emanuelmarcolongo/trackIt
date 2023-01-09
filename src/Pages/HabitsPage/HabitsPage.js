@@ -6,7 +6,7 @@ import Habit from "./Habit.js";
 import Footer from "../../Components/Footer.js";
 import NavBar from "../../Components/Navbar";
 import { ThreeDots } from "react-loader-spinner";
-import { MarginAuto } from "../TodayPage/TodayPage";
+import { LoaderContainer, MarginAuto } from "../TodayPage/TodayPage";
 import { url } from "../../Constants/urls.js";
 import { Weekday } from "./HabitsPage-Components.js";
 
@@ -139,29 +139,31 @@ export default function HabitPage({ config, valor, setValor }) {
             </Botoes>
           </LoginForm>
 
-          {habits.length >= 1 ? (
-            " "
-          ) : (  
-            <DefaultMessage data-identifier="no-habit-message">
-                {!loaded && (
-            <MarginAuto>
-                <ThreeDots
-            align-self='center'
-              height="20%"
-              width="50%"
-              margin='0 auto'
-              radius="9"
+          {!loaded && (
+                <LoaderContainer>
+             <ThreeDots
+              width='150px'
+              margin-bottom='2000px'
+              radius="20"
               color="blue"
               ariaLabel="three-dots-loading"
               wrapperStyle={{}}
               wrapperClassName=""
               visible={true}
             />
-            </MarginAuto>
+            <p style={{color: 'blue'}}>Buscando...</p>
+            </LoaderContainer>
           )}
-              Você não tem nenhum hábito cadastrado ainda. Adicione um hábito
-              para começar a trackear!
-            </DefaultMessage>
+          
+          {loaded && habits.length <= 0 ? (
+            <DefaultMessage data-identifier="no-habit-message">
+                
+            Você não tem nenhum hábito cadastrado ainda. Adicione um hábito
+            para começar a trackear!
+          </DefaultMessage>
+          ) : ( 
+            ''
+            
           )}
           {habits.map((item) => (
             <Habit setReload={setReload} key={item.id} habit={item}></Habit>
@@ -173,7 +175,6 @@ export default function HabitPage({ config, valor, setValor }) {
     </>
   );
 }
-
 
 
 const Content = styled.div`

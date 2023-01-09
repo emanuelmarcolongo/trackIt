@@ -138,17 +138,8 @@ const Info = styled.div`
   }
 `;
 
-export const MarginAuto = styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    margin-top: 30%;
-    margin-bottom: 100vh;
-`
 
-const LoaderContainer = styled.div`
+export const LoaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

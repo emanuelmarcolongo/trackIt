@@ -13,7 +13,6 @@ import { Weekday } from "./HabitsPage-Components.js";
 export default function HabitPage({ config, valor, setValor }) {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const [habits, setHabits] = useState([]);
-  const { todayInfo, setTodayInfo } = useContext(TodayContext);
   const [visibilidade, setVisibilidade] = useState("none");
   const [days, setDays] = useState([]);
   const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
@@ -59,15 +58,6 @@ export default function HabitPage({ config, valor, setValor }) {
       })
       .catch((err) => console.log(err.response.data));
 
-    axios
-      .get(
-        `${url}/habits/today`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      .then((res) => {
-        setTodayInfo(res.data);
-      })
-      .catch((err) => console.log(err.response.data));
   }, [reload]);
 
   return (
@@ -155,9 +145,8 @@ export default function HabitPage({ config, valor, setValor }) {
             </LoaderContainer>
           )}
           
-          {loaded && habits.length <= 0 ? (
+          {loaded && habits.length === 0 ? (
             <DefaultMessage data-identifier="no-habit-message">
-                
             Você não tem nenhum hábito cadastrado ainda. Adicione um hábito
             para começar a trackear!
           </DefaultMessage>

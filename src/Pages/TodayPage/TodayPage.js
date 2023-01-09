@@ -20,6 +20,7 @@ export default function TodayPage() {
   const [loaded, setLoaded] = useState(false);
   const {progress, setProgress} = useContext(UserContext);
 
+
   function completedTasksPercentage() {
     const doneTasks = habitList.filter((i) => i.done);
     setProgress(Math.round((doneTasks.length / habitList.length) * 100));
@@ -72,7 +73,11 @@ export default function TodayPage() {
 
           {loaded && habitList.length !== 0  ? (
             <p style={{color: "#8fc549"}} data-identifier="today-infos">
-            {}% dos hábitos concluidos
+              {progress === 0 ?
+              <>Nenhum hábito concluido... <strong>por enquanto!!</strong></>
+               :
+              <>{progress}% dos hábitos concluidos</>
+            }
           </p>
           ) : (
             <></>

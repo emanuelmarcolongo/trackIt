@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import styled from "styled-components"
 import logo from "../../Assets/imgs/Group8.png"
 import axios from "axios"
 import { LoginForm } from "../../Constants/StyledComponents"
@@ -8,9 +7,10 @@ import { ThreeDots } from "react-loader-spinner"
 import { PageContainer } from "../SignInPage/SignInStyles"
 import { url } from "../../Constants/urls"
 
-export default function SignUpPage ({body}) {
+export default function SignUpPage () {
     const [disable, setDisable] = useState(false)
     const navigate = useNavigate();
+    const body = { email: "", name: "", image: "", password: "" };
 
     function register (e) {
         setDisable(true)

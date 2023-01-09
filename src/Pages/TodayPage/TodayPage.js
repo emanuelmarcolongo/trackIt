@@ -7,19 +7,20 @@ import dayjs from "dayjs";
 import { ThreeDots } from "react-loader-spinner";
 import { url } from "../../Constants/urls";
 import { TodayHabit } from "./TodayPageComponents.js";
+import { Link } from "react-router-dom";
 
 export default function TodayPage({ valor, setValor }) {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
+  require('dayjs/locale/pt-br');
   const token = userInfo.token;
-  const [habitInfo, setHabitInfo] = useState([]);
+  const [habitList, setHabitList] = useState([]);
   const [updateEffect, setUpdateEffect] = useState(false);
   const dia = dayjs().locale("pt-br").format("dddd, D/M");
   const [loaded, setLoaded] = useState(false);
 
   function completedTasksPercentage() {
-    const doneTasks = habitInfo.filter((i) => i.done);
-    setValor(Math.round((doneTasks.length / habitInfo.length) * 100));
+    const doneTasks = habitList.filter((i) => i.done);
+    setValor(Math.round((doneTasks.length / habitList.length) * 100));
   }
 
   completedTasksPercentage();
@@ -31,7 +32,7 @@ export default function TodayPage({ valor, setValor }) {
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
-        setHabitInfo(res.data);
+        setHabitList(res.data);
         setLoaded(true);
       })
       .catch((err) => console.log(err.response.data));
@@ -48,42 +49,52 @@ export default function TodayPage({ valor, setValor }) {
           </span>
 
           {!loaded && (
-            <MarginAuto>
-                <ThreeDots
-            align-self='center'
-              height="20%"
-              width="50%"
-              margin='0 auto'
-              radius="9"
+            <LoaderContainer>
+             <ThreeDots
+              width='150px'
+              margin-bottom='2000px'
+              radius="20"
               color="blue"
               ariaLabel="three-dots-loading"
               wrapperStyle={{}}
               wrapperClassName=""
               visible={true}
             />
-            </MarginAuto>
+            <p style={{color: 'blue'}}>Buscando...</p>
+            </LoaderContainer>
+               
+
           )}
 
-        {(valor === 0 || isNaN(valor)) ? (
-            <p>Nenhum hábito concluido ainda</p>
+          {loaded && habitList.length !== 0  ? (
+            <p style={{color: "#8fc549"}} data-identifier="today-infos">
+            {valor}% dos hábitos concluidos
+          </p>
           ) : (
-            <ProgressMessage data-identifier="today-infos">
-              {valor}% dos hábitos concluidos
-            </ProgressMessage>
+            <></>
           )}
+
+          {loaded && habitList.length === 0  ? (
+            <p style={{justifyContent: 'center'}}>
+            Parece que você não tem nenhum hábito hoje.<br></br>
+            <Link to='/habitos'>Adicionar Hábito</Link>
+          </p>
+          ) : (
+            <></>
+          )}
+
         </Info>
 
-        {habitInfo.map((i) => (
+        {habitList.map((i) => (
           <TodayHabit
             setUpdate={setUpdateEffect}
-            teste={updateEffect}
             token={token}
             id={i.id}
-            key={i.id}
             done={i.done}
             sequence={i.currentSequence}
             record={i.highestSequence}
             name={i.name}
+            key={i.id}
           />
         ))}
       </Content>
@@ -112,9 +123,10 @@ const Content = styled.div`
 `;
 const Info = styled.div`
   display: flex;
-  width: 340px;
+  margin: 0 auto;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   font-family: "Lexend Deca", sans-serif;
   font-size: 18px;
   color: #666;
@@ -126,10 +138,6 @@ const Info = styled.div`
   }
 `;
 
-const ProgressMessage = styled.p`
-  color: #8fc549;
-`;
-
 export const MarginAuto = styled.div`
     width: 100%;
     display: flex;
@@ -138,4 +146,12 @@ export const MarginAuto = styled.div`
     margin: 0 auto;
     margin-top: 30%;
     margin-bottom: 100vh;
+`
+
+const LoaderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 200px;
 `

@@ -58,22 +58,22 @@ export function TodayHabit({ setUpdate, token, id, done, sequence, record, name 
     }
   
     return (
-      <Habito>
-        <HabitoConteudo>
-          <HabitName>{name}</HabitName>
-          <HabitInfoSeq color={color}>
+      <HabitContainer>
+        <HabitContent>
+          <p>{name}</p>
+          <HabitSequence color={color}>
             Sequencia Atual:{" "}
             <span>
               {sequence} {sequence === 1 ? "dia" : "dias"}
             </span>
-          </HabitInfoSeq>
-          <HabitInfoRec record={isRecord}>
+          </HabitSequence>
+          <HabitRecord record={isRecord}>
             Seu recorde:{" "}
             <span>
               {record} {record === 1 ? "dia" : "dias"}
             </span>
-          </HabitInfoRec>
-        </HabitoConteudo>
+          </HabitRecord>
+        </HabitContent>
         <Checkbox
           data-identifier="done-habit-btn"
           onClick={() => handleCheck(id, done)}
@@ -81,12 +81,12 @@ export function TodayHabit({ setUpdate, token, id, done, sequence, record, name 
         >
           <img src={check} alt="checksymbol" />
         </Checkbox>
-      </Habito>
+      </HabitContainer>
     );
   }
 
 
-  const Habito = styled.div`
+  const HabitContainer = styled.div`
   box-sizing: border-box;
   width: 340px;
   display: flex;
@@ -98,10 +98,15 @@ export function TodayHabit({ setUpdate, token, id, done, sequence, record, name 
   background-color: white;
   border-radius: 15px;
 `;
-const HabitoConteudo = styled.div`
+const HabitContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  p {
+    font-family: "Lexend Deca", sans-serif;
+  font-size: 20 px;
+  color: #666666;
+  }
 `;
 const Checkbox = styled.div`
   display: flex;
@@ -111,12 +116,7 @@ const Checkbox = styled.div`
   height: 69px;
   background-color: ${(props) => (props.done ? "#8FC549;" : "#EBEBEB")};
 `;
-const HabitName = styled.p`
-  font-family: "Lexend Deca", sans-serif;
-  font-size: 20 px;
-  color: #666666;
-`;
-const HabitInfoSeq = styled.p`
+const HabitSequence = styled.p`
   font-family: "Lexend Deca", sans-serif;
   font-size: 13px;
   color: #666666;
@@ -124,7 +124,7 @@ const HabitInfoSeq = styled.p`
     color: ${(props) => props.color};
   }
 `;
-const HabitInfoRec = styled.p`
+const HabitRecord = styled.p`
   font-family: "Lexend Deca", sans-serif;
   font-size: 13px;
   color: #666;

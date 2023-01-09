@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import { useContext, useEffect, useState } from "react";
-import { TodayContext } from "../../Constants/userContext.js";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Habit from "./Habit.js";
 import Footer from "../../Components/Footer.js";
 import NavBar from "../../Components/Navbar";
 import { ThreeDots } from "react-loader-spinner";
-import { LoaderContainer, MarginAuto } from "../TodayPage/TodayPage";
+import { LoaderContainer} from "../TodayPage/TodayPage";
 import { url } from "../../Constants/urls.js";
 import { Weekday } from "./HabitsPage-Components.js";
 

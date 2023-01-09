@@ -12,7 +12,6 @@ import HabitPage from "./Pages/HabitsPage/HabitsPage.js";
 
 function App() {
   const [userInfo, setUserInfo] = useState({});
-  const [todayInfo, setTodayInfo] = useState({});
   const config = { name: "", days: [] };
   const [valor, setValor] = useState(0);
 
@@ -21,7 +20,6 @@ function App() {
       <BrowserRouter>
         <GlobalStyle />
         <UserContext.Provider value={{ userInfo, setUserInfo }}>
-          <TodayContext.Provider value={{ todayInfo, setTodayInfo }}>
             <Routes>
               <Route path="/" element={<SignInPage />} />
               <Route
@@ -43,7 +41,6 @@ function App() {
                 element={<HistoryPage valor={valor} setValor={setValor} />}
               />
             </Routes>
-          </TodayContext.Provider>
         </UserContext.Provider>
       </BrowserRouter>
     </div>

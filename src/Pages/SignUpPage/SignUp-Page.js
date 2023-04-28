@@ -10,12 +10,12 @@ import { url } from "../../Constants/urls"
 export default function SignUpPage () {
     const [disable, setDisable] = useState(false)
     const navigate = useNavigate();
-    const body = { email: "", name: "", image: "", password: "" };
+    const [form ,setForm] = useState({ email: "", name: "", image: "", password: "" }); 
 
     function register (e) {
         setDisable(true)
         e.preventDefault();
-        axios.post(`${url}/auth/sign-up`, body)
+        axios.post(`${url}/auth/sign-up`, form)
         .then(res => {navigate ("/")})
         .catch(err => {
             alert(err.response.data.message);
@@ -24,15 +24,22 @@ export default function SignUpPage () {
     }
 
 
+    function handleForm (e) {
+        setForm({
+            ...form,
+            [e.currentTarget.name]: e.currentTarget.value,
+          });
+    }
+
     return (
         <PageContainer>
         <img src={logo} alt="Trackt Logo"/>
 
         <LoginForm onSubmit={register}>
-            <input required disabled={disable} data-identifier="input-email" onChange={e => body.email= e.target.value} type="email" name="email" placeholder="email"></input>
-            <input required disabled={disable} data-identifier="input-password" onChange={e => body.password= e.target.value} type="password" name="password" placeholder="senha"></input>
-            <input required disabled={disable} data-identifier="input-name" onChange={e => body.name= e.target.value} type="text" name="name" placeholder="nome"></input>
-            <input required disabled={disable} data-identifier="input-photo" onChange={e => body.image= e.target.value} type="text" name="image" placeholder="coloque a URL de uma imagem"></input>
+            <input required disabled={disable} data-identifier="input-email" onChange={handleForm} type="email" name="email" placeholder="email"></input>
+            <input required disabled={disable} data-identifier="input-password" onChange={handleForm} type="password" name="password" placeholder="senha"></input>
+            <input required disabled={disable} data-identifier="input-name" onChange={handleForm} type="text" name="name" placeholder="nome"></input>
+            <input required disabled={disable} data-identifier="input-photo" onChange={handleForm} type="text" name="image" placeholder="coloque a URL de uma imagem"></input>
             <button type="submit" >{disable ? 
             <ThreeDots 
             height="30" 

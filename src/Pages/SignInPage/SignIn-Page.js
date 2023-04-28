@@ -12,18 +12,27 @@ export default function SignInPage() {
     const navigate = useNavigate();
     const {userInfo, setUserInfo} = useContext(UserContext);
     const [disable, setDisable] = useState(false);
-    const body = {email: "", password: ""};
+    const [form, setForm] = useState({email: "", password: ""});
 
     if(localStorage.getItem('userInfo') !== null) {
         setUserInfo(localStorage.getItem('userInfo'));
         navigate("/hoje");
     }
 
+    function handleForm (e) {
+        setForm({
+            ...form,
+            [e.currentTarget.name]: e.currentTarget.value,
+          });
+    }
+
     function handleClick (e) {
     setDisable(true);
     e.preventDefault();
 
-    axios.post(`${url}/auth/login`, body)
+    console.log(form)
+
+    axios.post(`${url}/auth/login`, form)
     .then (res => {
         setUserInfo(res.data);
         delete res.data.password;
@@ -42,8 +51,8 @@ export default function SignInPage() {
         <PageContainer>
             <img src={logo} alt="Trackt Logo"/>
             <LoginForm onSubmit={handleClick}>
-                <input required disabled={disable} data-identifier="input-email" type="email" onChange={e => body.email = e.target.value}     name="e-mail" placeholder="email"></input>
-                <input required disabled={disable} type="password" data-identifier="input-password" onChange={e => body.password = e.target.value}     name="password" placeholder="senha"></input>
+                <input required disabled={disable} data-identifier="input-email" type="email" onChange={handleForm}     name="email" placeholder="email"></input>
+                <input required disabled={disable} type="password" data-identifier="input-password" onChange={handleForm}     name="password" placeholder="senha"></input>
                 <button data-identifier="login-btn" disabled={disable} type="submit" >{disable 
                 ?
                 <ThreeDots 

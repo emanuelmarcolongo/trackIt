@@ -55,11 +55,15 @@ export default function SignInPage() {
           disabled={disable}
           data-identifier="input-email"
           type="email"
-          {...register("email", {required: true })}
+          {...register("email", {required: true, pattern: {
+            value: /\S+@\S+\.\S+/,
+            message: "Insira um formato de e-mail válido"
+          }})}
           name="email"
           placeholder="email"
         ></input>
         {errors.email?.type === 'required' && <p role="alert">Forneça um e-mail válido</p>}
+        {errors.email?.message && <p role="alert">{errors.email?.message}</p>}
         <input
           disabled={disable}
           type="password"

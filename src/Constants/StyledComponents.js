@@ -6,12 +6,13 @@ export const LoginForm = styled.form`
   flex-direction: column;
   justify-content: center;
   width: 303px;
+  gap: 10px;
+ 
   input {
     font-family: "Lexend Deca", sans-serif;
     height: 45px;
     border: 1px solid #d4d4d4;
     border-radius: 5px;
-    margin-bottom: 6px;
     ::placeholder {
       font-family: "Lexend Deca", sans-serif;
       color: #dbdbdb;
@@ -33,6 +34,7 @@ export const LoginForm = styled.form`
     background-color: #52b6ff;
     font-size: 21px;
     color: #fff;
+    margin-bottom: 20px;
     img {
       width: 40px;
       height: 40px;

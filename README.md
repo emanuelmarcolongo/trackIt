@@ -8,6 +8,7 @@ O Track It é uma aplicação front-end desenvolvida em React que permite aos us
 
 ## Funcionalidades
 
+- Autenticação
 - Criação de hábitos e tarefas personalizados
 - Escolha dos dias da semana referentes às tarefas
 - Acompanhamento diário de tarefas com barra de progresso
@@ -26,6 +27,7 @@ O Track It é uma aplicação front-end desenvolvida em React que permite aos us
 
 - React: Biblioteca JavaScript para construção de interfaces de usuário
 - Consumo de API: Utilização de requisições HTTP para acesso aos dados do banco de dados
+- react-hook-form (npm): Para validação dos formulários Login/Registro 
 
 
 

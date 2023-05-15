@@ -16,7 +16,6 @@ export const PageContainer = styled.div`
         color: #52B6FF;
         font-weight: 400;
         font-size: 14px;
-        margin-top: 25px;
     }
     a {
         text-decoration: none;

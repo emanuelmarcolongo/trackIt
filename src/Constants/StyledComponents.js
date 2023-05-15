@@ -18,6 +18,11 @@ export const LoginForm = styled.form`
       font-size: 20px;
     }
   }
+
+  p {
+    margin-bottom: 10px;
+  }
+  
   button {
     font-family: "Lexend Deca", sans-serif;
     height: 45px;

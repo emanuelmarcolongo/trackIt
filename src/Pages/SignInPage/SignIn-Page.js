@@ -52,23 +52,23 @@ export default function SignInPage() {
       <img src={logo} alt="Trackt Logo" />
       <LoginForm onSubmit={handleSubmit(onSubmit)}>
         <input
-          required
           disabled={disable}
           data-identifier="input-email"
           type="email"
-          {...register("email")}
+          {...register("email", {required: true })}
           name="email"
           placeholder="email"
         ></input>
+        {errors.email?.type === 'required' && <p role="alert">Forneça um e-mail válido</p>}
         <input
-          required
           disabled={disable}
           type="password"
           data-identifier="input-password"
-          {...register("password")}
+          {...register("password", {required: true})}
           name="password"
           placeholder="senha"
         ></input>
+        {errors.password?.type === 'required' && <p role="alert">Forneça uma senha</p>}
         <button data-identifier="login-btn" disabled={disable} type="submit">
           {disable ? (
             <ThreeDots
